@@ -1,0 +1,93 @@
+@extends('layouts.app')
+
+@section('page-title', 'Tambah User Baru')
+
+@section('content')
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <!-- Form Header -->
+        <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+            <h3 class="text-sm font-bold text-slate-800 uppercase font-mono tracking-wider">Formulir Tambah User</h3>
+            <a href="{{ route('users.index') }}" class="text-xs text-slate-500 hover:text-slate-800 flex items-center">
+                &larr; Kembali
+            </a>
+        </div>
+
+        <!-- Form Body -->
+        <form action="{{ route('users.store') }}" method="POST" class="p-6 space-y-5">
+            @csrf
+
+            <!-- Name -->
+            <div>
+                <label for="name" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Nama Lengkap</label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                @error('name')
+                    <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Email & Phone Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Alamat Email</label>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                    @error('email')
+                        <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Phone -->
+                <div>
+                    <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Nomor Telepon</label>
+                    <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2">
+                    @error('phone')
+                        <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <!-- Role Select -->
+            <div>
+                <label for="role" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Peran / Role</label>
+                <select name="role" id="role" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                    <option value="" disabled selected>Pilih peran...</option>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->value }}" {{ old('role') === $role->value ? 'selected' : '' }}>
+                            {{ strtoupper($role->value) }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('role')
+                    <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Password Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Password</label>
+                    <input type="password" name="password" id="password" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                    @error('password')
+                        <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="password_confirmation" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Konfirmasi Password</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4 border-t border-slate-100 flex justify-end">
+                <button type="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
+                    Simpan User
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
