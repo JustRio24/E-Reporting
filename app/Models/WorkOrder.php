@@ -61,4 +61,12 @@ class WorkOrder extends Model
                      ->where('status', '!=', WorkOrderStatus::COMPLETED)
                      ->where('status', '!=', WorkOrderStatus::CANCELLED);
     }
+
+    public function isOverdue(): bool
+    {
+        return $this->due_date &&
+               $this->due_date < now() &&
+               $this->status !== WorkOrderStatus::COMPLETED &&
+               $this->status !== WorkOrderStatus::CANCELLED;
+    }
 }

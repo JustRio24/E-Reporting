@@ -79,7 +79,7 @@ class WorkOrderController extends Controller
 
     public function show(int $id): View
     {
-        $workOrder = WorkOrder::with(['damageReport.facility.location', 'damageReport.photos', 'assignee', 'creator', 'progressEntries.creator'])->findOrFail($id);
+        $workOrder = WorkOrder::with(['damageReport.facility.location', 'damageReport.photos', 'assignee', 'assigner', 'progressEntries.creator'])->findOrFail($id);
         
         // Check policy
         $this->authorize('view', $workOrder);
@@ -112,7 +112,7 @@ class WorkOrderController extends Controller
     public function startWork(int $id): RedirectResponse
     {
         $workOrder = WorkOrder::findOrFail($id);
-        $this->authorize('updateStatus', $workOrder);
+        $this->authorize('startWork', $workOrder);
 
         $this->workOrderService->startWork($workOrder, auth()->user());
 
@@ -122,7 +122,7 @@ class WorkOrderController extends Controller
     public function completeWork(int $id): RedirectResponse
     {
         $workOrder = WorkOrder::findOrFail($id);
-        $this->authorize('updateStatus', $workOrder);
+        $this->authorize('completeWork', $workOrder);
 
         // Validation rule: progress percentage must be 100 before closing/completing
         if ($workOrder->progress_percentage < 100) {

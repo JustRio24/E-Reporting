@@ -3,16 +3,16 @@
 @section('page-title', 'GIS Monitoring Kerusakan')
 
 @section('content')
-<div class="h-[calc(100vh-140px)] flex flex-col relative rounded-lg border border-slate-200 overflow-hidden shadow-sm">
+<div class="h-[calc(100vh-140px)] flex flex-col relative rounded-lg border border-slate-700/50 overflow-hidden shadow-sm transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
     <!-- Floating Filter Box -->
-    <div class="absolute top-4 left-4 z-[1000] bg-white/95 backdrop-blur-md p-4 rounded-lg border border-slate-200 shadow-lg max-w-xs w-full space-y-3.5">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 font-mono flex items-center">
+    <div class="absolute top-4 left-4 z-[1000] bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md/95 backdrop-blur-md p-4 rounded-lg border border-slate-700/50 shadow-lg max-w-xs w-full space-y-3.5 transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono flex items-center">
             <span class="mr-2">🔍</span> Filter Peta GIS
         </h4>
 
         <div>
-            <label for="filter-status" class="block text-3xs font-mono font-bold uppercase text-slate-500 mb-1">Status Laporan</label>
-            <select id="filter-status" class="w-full text-xs rounded border-slate-300 focus:border-secondary focus:ring-secondary py-1.5 font-mono">
+            <label for="filter-status" class="block text-3xs font-mono font-bold uppercase text-slate-400 mb-1">Status Laporan</label>
+            <select id="filter-status" class="w-full text-xs rounded border-slate-600/50 focus:border-secondary focus:ring-secondary py-1.5 font-mono">
                 <option value="">Semua Status</option>
                 @foreach($statuses as $st)
                     <option value="{{ $st->value }}">{{ strtoupper(str_replace('_', ' ', $st->value)) }}</option>
@@ -21,8 +21,8 @@
         </div>
 
         <div>
-            <label for="filter-severity" class="block text-3xs font-mono font-bold uppercase text-slate-500 mb-1">Tingkat Keparahan</label>
-            <select id="filter-severity" class="w-full text-xs rounded border-slate-300 focus:border-secondary focus:ring-secondary py-1.5 font-mono">
+            <label for="filter-severity" class="block text-3xs font-mono font-bold uppercase text-slate-400 mb-1">Tingkat Keparahan</label>
+            <select id="filter-severity" class="w-full text-xs rounded border-slate-600/50 focus:border-secondary focus:ring-secondary py-1.5 font-mono">
                 <option value="">Semua Keparahan</option>
                 @foreach($severities as $sev)
                     <option value="{{ $sev->value }}">{{ strtoupper($sev->value) }}</option>
@@ -36,11 +36,11 @@
     </div>
 
     <!-- Map Container -->
-    <div id="gis-fullscreen-map" class="flex-1 w-full h-full z-0 bg-slate-100"></div>
+    <div id="gis-fullscreen-map" class="flex-1 w-full h-full z-0 bg-slate-700/50"></div>
 
     <!-- Floating Map Legend -->
-    <div class="absolute bottom-4 right-4 z-[1000] bg-white/95 backdrop-blur-md px-4 py-3 rounded-lg border border-slate-200 shadow-md text-3xs font-mono space-y-2">
-        <div class="font-bold text-slate-700 border-b border-slate-150 pb-1.5 mb-1.5">LEGENDA STATUS</div>
+    <div class="absolute bottom-4 right-4 z-[1000] bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md/95 backdrop-blur-md px-4 py-3 rounded-lg border border-slate-700/50 shadow-md text-3xs font-mono space-y-2 transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+        <div class="font-bold text-slate-300 border-b border-slate-150 pb-1.5 mb-1.5">LEGENDA STATUS</div>
         <div class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-[#ba1a1a] mr-2 inline-block border border-white"></span> Aktif / Dilaporkan</div>
         <div class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-[#d97706] mr-2 inline-block border border-white"></span> Sedang Perbaikan</div>
         <div class="flex items-center"><span class="w-3.5 h-3.5 rounded-full bg-[#059669] mr-2 inline-block border border-white"></span> Selesai</div>
@@ -54,8 +54,17 @@
     let markersLayer = L.layerGroup();
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize Map centered on Kertapati Port area
-        map = L.map('gis-fullscreen-map').setView([-2.9935, 104.7300], 15);
+        const ptbaBounds = [
+            [-3.0330, 104.7340], // SouthWest
+            [-3.0030, 104.7640]  // NorthEast
+        ];
+
+        // Initialize Map centered on Kertapati Port area and restrict bounds
+        map = L.map('gis-fullscreen-map', {
+            maxBounds: ptbaBounds,
+            maxBoundsViscosity: 1.0,
+            minZoom: 15
+        }).setView([-3.0182, 104.7493], 16);
         
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -101,11 +110,11 @@
 
                         const popupContent = `
                             <div class="font-sans text-xs min-w-[200px] p-1.5">
-                                <div class="font-bold text-slate-800">${point.facility || 'Master Facility'}</div>
-                                <div class="text-slate-500 font-mono mt-0.5 text-2xs">${point.report_number}</div>
-                                <div class="font-semibold text-slate-700 mt-1.5 border-t border-slate-100 pt-1.5">${point.title}</div>
+                                <div class="font-bold text-slate-200">${point.facility || 'Master Facility'}</div>
+                                <div class="text-slate-400 font-mono mt-0.5 text-2xs">${point.report_number}</div>
+                                <div class="font-semibold text-slate-300 mt-1.5 border-t border-slate-100 pt-1.5">${point.title}</div>
                                 <div class="mt-2.5 flex items-center justify-between">
-                                    <span class="text-4xs uppercase font-mono px-1.5 py-0.5 rounded font-bold bg-slate-100 text-slate-600">${point.severity}</span>
+                                    <span class="text-4xs uppercase font-mono px-1.5 py-0.5 rounded font-bold bg-slate-700/50 text-slate-300">${point.severity}</span>
                                     <a href="/damage-reports/${point.id}" class="text-4xs font-bold text-secondary hover:underline">Detail &rarr;</a>
                                 </div>
                             </div>

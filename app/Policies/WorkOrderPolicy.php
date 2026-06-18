@@ -52,4 +52,14 @@ class WorkOrderPolicy
     {
         return $user->role === UserRole::ADMIN;
     }
+
+    public function startWork(User $user, WorkOrder $workOrder): bool
+    {
+        return $user->role === UserRole::SUPERVISOR;
+    }
+
+    public function completeWork(User $user, WorkOrder $workOrder): bool
+    {
+        return $user->role === UserRole::SUPERVISOR || $user->role === UserRole::ADMIN || $user->id === $workOrder->assigned_to;
+    }
 }

@@ -5,17 +5,17 @@
 @section('content')
 <div class="space-y-6">
     <!-- Header with tab status & filters -->
-    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-4">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md p-4 rounded-lg border border-slate-700/50 shadow-sm space-y-4 transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <!-- Status Tabs -->
-        <div class="border-b border-slate-200 overflow-x-auto flex">
+        <div class="border-b border-slate-700/50 overflow-x-auto flex">
             <nav class="flex space-x-6 min-w-max text-xs font-bold uppercase tracking-wider font-mono">
                 <a href="{{ route('damage-reports.index', array_merge(request()->except('status'), ['status' => ''])) }}" 
-                    class="pb-3 border-b-2 px-1 {{ !request('status') ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
+                    class="pb-3 border-b-2 px-1 {{ !request('status') ? 'border-primary text-primary' : 'border-transparent text-slate-400 hover:text-slate-200' }}">
                     Semua
                 </a>
                 @foreach($statuses as $status)
                     <a href="{{ route('damage-reports.index', array_merge(request()->except('status'), ['status' => $status->value])) }}" 
-                        class="pb-3 border-b-2 px-1 {{ request('status') === $status->value ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
+                        class="pb-3 border-b-2 px-1 {{ request('status') === $status->value ? 'border-primary text-primary' : 'border-transparent text-slate-400 hover:text-slate-200' }}">
                         {{ str_replace('_', ' ', $status->value) }}
                     </a>
                 @endforeach
@@ -48,7 +48,7 @@
                     Filter
                 </button>
                 @if(!empty(request()->except('status')))
-                    <a href="{{ route('damage-reports.index', ['status' => request('status')]) }}" class="text-xs text-slate-500 hover:text-slate-800 underline">Reset</a>
+                    <a href="{{ route('damage-reports.index', ['status' => request('status')]) }}" class="text-xs text-slate-400 hover:text-slate-200 underline">Reset</a>
                 @endif
             </div>
 
@@ -63,15 +63,15 @@
     <!-- Data List/Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($reports as $report)
-            <div class="bg-white rounded-lg border shadow-sm overflow-hidden flex flex-col transition-all duration-150 hover:shadow-md
-                @if($report->severity->value === 'critical' && $report->status->value !== 'completed') border-red-300 ring-1 ring-red-500/10 @else border-slate-205 @endif">
+            <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border shadow-sm overflow-hidden flex flex-col transition-all duration-150 hover:shadow-md
+                @if($report->severity->value === 'critical' && $report->status->value !== 'completed') border-red-300 ring-1 ring-red-500/10 @else border-slate-700/50 @endif transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
                 
                 <!-- Report Photo Header -->
-                <div class="h-44 bg-slate-100 relative">
+                <div class="h-44 bg-slate-700/50 relative">
                     @if($report->photos->first())
                         <img src="{{ asset('storage/' . $report->photos->first()->photo_path) }}" alt="Foto Kerusakan" class="w-full h-full object-cover">
                     @else
-                        <div class="w-full h-full flex items-center justify-center text-slate-350 bg-slate-100">
+                        <div class="w-full h-full flex items-center justify-center text-slate-350 bg-slate-700/50">
                             <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
@@ -106,19 +106,19 @@
                 <!-- Card Body -->
                 <div class="p-5 flex-1 flex flex-col">
                     <span class="block text-4xs font-mono font-bold tracking-widest text-slate-400 uppercase">{{ $report->report_number }}</span>
-                    <h4 class="text-sm font-bold text-slate-900 mt-1 line-clamp-1 hover:text-secondary transition-colors">
+                    <h4 class="text-sm font-bold text-white mt-1 line-clamp-1 hover:text-secondary transition-colors">
                         <a href="{{ route('damage-reports.show', $report->id) }}">{{ $report->title }}</a>
                     </h4>
                     
-                    <p class="text-2xs text-slate-500 mt-2 line-clamp-2 leading-relaxed flex-1">{{ $report->description }}</p>
+                    <p class="text-2xs text-slate-400 mt-2 line-clamp-2 leading-relaxed flex-1">{{ $report->description }}</p>
                     
                     <!-- Facility & Location metadata -->
                     <div class="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-3xs font-mono">
-                        <div class="flex items-center text-slate-600">
+                        <div class="flex items-center text-slate-300">
                             <span class="w-16 font-bold uppercase">Fasilitas:</span>
                             <span class="truncate">{{ $report->facility->facility_name }}</span>
                         </div>
-                        <div class="flex items-center text-slate-600">
+                        <div class="flex items-center text-slate-300">
                             <span class="w-16 font-bold uppercase">Lokasi:</span>
                             <span class="truncate">{{ $report->facility->location->name }}</span>
                         </div>
@@ -126,7 +126,7 @@
                 </div>
 
                 <!-- Card Footer Actions -->
-                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-3xs">
+                <div class="px-5 py-3.5 bg-slate-900/40 border-t border-slate-100 flex justify-between items-center text-3xs">
                     <span class="font-mono text-slate-455">Oleh: {{ $report->reporter->name }}</span>
                     <a href="{{ route('damage-reports.show', $report->id) }}" class="font-bold text-secondary hover:underline flex items-center">
                         Lihat Detail &rarr;
@@ -134,14 +134,14 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-full bg-white rounded-lg border border-slate-200 py-16 text-center text-slate-400 font-mono text-xs">
+            <div class="col-span-full bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 py-16 text-center text-yellow-200/80 font-mono text-xs transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
                 Tidak ada laporan kerusakan yang ditemukan.
             </div>
         @endforelse
     </div>
 
     @if($reports->hasPages())
-        <div class="bg-white rounded-lg border border-slate-200 p-4">
+        <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 p-4 transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
             {{ $reports->links() }}
         </div>
     @endif

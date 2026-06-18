@@ -70,7 +70,7 @@ class DamageReportPolicy
      */
     public function verify(User $user, DamageReport $report): bool
     {
-        return ($user->role === UserRole::SUPERVISOR || $user->role === UserRole::ADMIN)
+        return $user->role === UserRole::SUPERVISOR
             && $report->status->value === 'reported';
     }
 
@@ -79,7 +79,7 @@ class DamageReportPolicy
      */
     public function verifyCompletion(User $user, DamageReport $report): bool
     {
-        return ($user->role === UserRole::SUPERVISOR || $user->role === UserRole::ADMIN)
+        return $user->role === UserRole::SUPERVISOR
             && $report->status->value === 'waiting_verification';
     }
 }

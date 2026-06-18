@@ -5,17 +5,17 @@
 @section('content')
 <div class="space-y-6">
     <!-- Top Action bar -->
-    <div class="bg-white p-4 rounded-lg border border-slate-205 shadow-sm flex flex-wrap items-center justify-between gap-4">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md p-4 rounded-lg border border-slate-700/50 shadow-sm flex flex-wrap items-center justify-between gap-4 transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <div class="flex items-center space-x-3">
-            <a href="{{ route('work-orders.index') }}" class="text-xs text-slate-500 hover:text-slate-800 font-semibold">&larr; Kembali ke Daftar WO</a>
+            <a href="{{ route('work-orders.index') }}" class="text-xs text-slate-400 hover:text-slate-200 font-semibold">&larr; Kembali ke Daftar WO</a>
             <span class="text-slate-355">|</span>
-            <span class="text-xs font-mono font-bold text-slate-600">{{ $workOrder->wo_number }}</span>
+            <span class="text-xs font-mono font-bold text-slate-300">{{ $workOrder->wo_number }}</span>
         </div>
 
         <div class="flex items-center gap-2">
             <!-- Action to Start WO -->
             @if($workOrder->status->value === 'pending')
-                @if(auth()->id() === $workOrder->assigned_to || auth()->user()->isAdmin())
+                @if(auth()->user()->isSupervisor())
                     <form action="{{ route('work-orders.start', $workOrder->id) }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-primary-dark transition-colors">
@@ -53,9 +53,9 @@
         <!-- Details & Progress Logs (Left span 2) -->
         <div class="lg:col-span-2 space-y-6">
             <!-- WO details -->
-            <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase font-mono tracking-wider">Informasi Surat Perintah</h3>
+            <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+                <div class="px-6 py-4 border-b border-slate-700/50 bg-slate-900/40 flex justify-between items-center">
+                    <h3 class="text-sm font-bold text-yellow-400 uppercase font-mono tracking-wider">Informasi Surat Perintah</h3>
                     <span class="inline-flex px-2 py-0.5 rounded text-4xs font-bold tracking-wider uppercase text-white 
                         @if($workOrder->status->value === 'pending') bg-slate-500
                         @elseif($workOrder->status->value === 'in_progress') bg-amber-500
@@ -66,9 +66,9 @@
                 </div>
                 <div class="p-6 space-y-6">
                     <!-- Progress Bar Header -->
-                    <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                    <div class="bg-slate-900/40 p-4 rounded border border-slate-700/50">
                         <div class="flex justify-between items-center mb-1 text-xs">
-                            <span class="font-bold text-slate-650">Kemajuan Progres Perbaikan</span>
+                            <span class="font-bold text-blue-200">Kemajuan Progres Perbaikan</span>
                             <span class="font-mono font-bold text-secondary text-sm">{{ $workOrder->progress_percentage }}%</span>
                         </div>
                         <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
@@ -80,19 +80,19 @@
                         <div>
                             <span class="block text-4xs font-mono font-bold tracking-wider text-slate-400 uppercase">Petugas Lapangan</span>
                             <span class="text-xs font-semibold text-slate-850 block mt-0.5">{{ $workOrder->assignee->name }}</span>
-                            <span class="text-3xs font-mono text-slate-500">{{ $workOrder->assignee->phone ?? 'No telp -' }}</span>
+                            <span class="text-3xs font-mono text-slate-400">{{ $workOrder->assignee->phone ?? 'No telp -' }}</span>
                         </div>
                         <div>
                             <span class="block text-4xs font-mono font-bold tracking-wider text-slate-400 uppercase">Pemberi Perintah</span>
-                            <span class="text-xs font-semibold text-slate-850 block mt-0.5">{{ $workOrder->creator->name }}</span>
+                            <span class="text-xs font-semibold text-slate-850 block mt-0.5">{{ $workOrder->assigner->name }}</span>
                         </div>
                         <div class="mt-2">
                             <span class="block text-4xs font-mono font-bold tracking-wider text-slate-400 uppercase">Tanggal Penugasan</span>
-                            <span class="text-xs font-mono text-slate-700 block mt-0.5">{{ $workOrder->assigned_date->format('d M Y') }}</span>
+                            <span class="text-xs font-mono text-slate-300 block mt-0.5">{{ $workOrder->assigned_date->format('d M Y') }}</span>
                         </div>
                         <div class="mt-2">
                             <span class="block text-4xs font-mono font-bold tracking-wider text-slate-400 uppercase">Batas Waktu (Due Date)</span>
-                            <span class="text-xs font-mono block mt-0.5 {{ $workOrder->isOverdue() && $workOrder->status->value !== 'completed' ? 'text-red-600 font-bold' : 'text-slate-700' }}">
+                            <span class="text-xs font-mono block mt-0.5 {{ $workOrder->isOverdue() && $workOrder->status->value !== 'completed' ? 'text-red-600 font-bold' : 'text-slate-300' }}">
                                 {{ $workOrder->due_date->format('d M Y') }}
                             </span>
                         </div>
@@ -100,17 +100,17 @@
 
                     @if($workOrder->notes)
                         <div>
-                            <span class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Instruksi Penugasan</span>
-                            <p class="text-xs text-slate-750 bg-slate-50 p-4 rounded border border-slate-150 leading-relaxed font-mono">{{ $workOrder->notes }}</p>
+                            <span class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Instruksi Penugasan</span>
+                            <p class="text-xs text-slate-750 bg-slate-900/40 p-4 rounded border border-slate-150 leading-relaxed font-mono">{{ $workOrder->notes }}</p>
                         </div>
                     @endif
                 </div>
             </div>
 
             <!-- Progress Logging Entries -->
-            <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase font-mono tracking-wider">Log Progres Perbaikan</h3>
+            <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+                <div class="px-6 py-4 border-b border-slate-700/50 bg-slate-900/40">
+                    <h3 class="text-sm font-bold text-yellow-400 uppercase font-mono tracking-wider">Log Progres Perbaikan</h3>
                 </div>
                 <div class="p-6">
                     <div class="flow-root">
@@ -129,16 +129,16 @@
                                             </div>
                                             <div class="flex-1 min-w-0 pt-1.5 flex justify-between space-x-4">
                                                 <div>
-                                                    <p class="text-xs text-slate-700 leading-normal">{{ $entry->description }}</p>
+                                                    <p class="text-xs text-slate-300 leading-normal">{{ $entry->description }}</p>
                                                     @if($entry->photo_path)
-                                                        <div class="mt-3 max-w-[200px] h-28 rounded overflow-hidden border border-slate-200 cursor-pointer" onclick="viewPhoto('{{ asset('storage/' . $entry->photo_path) }}')">
+                                                        <div class="mt-3 max-w-[200px] h-28 rounded overflow-hidden border border-slate-700/50 cursor-pointer" onclick="viewPhoto('{{ asset('storage/' . $entry->photo_path) }}')">
                                                             <img src="{{ asset('storage/' . $entry->photo_path) }}" alt="Foto Progres" class="w-full h-full object-cover">
                                                         </div>
                                                     @endif
                                                 </div>
                                                 <div class="text-right text-3xs whitespace-nowrap text-slate-400">
                                                     <div>{{ $entry->created_at->format('d M Y H:i') }}</div>
-                                                    <div class="font-bold text-slate-500 mt-1">oleh {{ $entry->creator->name }}</div>
+                                                    <div class="font-bold text-slate-400 mt-1">oleh {{ $entry->creator->name }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,15 +160,15 @@
             <!-- Add Progress Form (Only for assignee during in_progress status) -->
             @if($workOrder->status->value === 'in_progress')
                 @if(auth()->id() === $workOrder->assigned_to || auth()->user()->isAdmin())
-                    <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-                        <div class="px-5 py-4 border-b border-slate-200 bg-slate-50">
-                            <h3 class="text-xs font-bold text-slate-800 uppercase font-mono tracking-wider">Update Progres Harian</h3>
+                    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+                        <div class="px-5 py-4 border-b border-slate-700/50 bg-slate-900/40">
+                            <h3 class="text-xs font-bold text-yellow-400 uppercase font-mono tracking-wider">Update Progres Harian</h3>
                         </div>
                         <form action="{{ route('repair-progress.store', $workOrder->id) }}" method="POST" enctype="multipart/form-data" class="p-5 space-y-4">
                             @csrf
                             
                             <div>
-                                <label for="progress_percentage" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Persentase Kemajuan (0 - 100%)</label>
+                                <label for="progress_percentage" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Persentase Kemajuan (0 - 100%)</label>
                                 <input type="number" name="progress_percentage" id="progress_percentage" min="{{ $workOrder->progress_percentage }}" max="100" value="{{ old('progress_percentage', $workOrder->progress_percentage) }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2 font-mono" required>
                                 @error('progress_percentage')
                                     <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
@@ -176,7 +176,7 @@
                             </div>
 
                             <div>
-                                <label for="desc" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Uraian Pekerjaan / Material</label>
+                                <label for="desc" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Uraian Pekerjaan / Material</label>
                                 <textarea name="description" id="desc" rows="4" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" placeholder="Jelaskan mengenai apa saja tindakan yang telah dilakukan, kendala di lapangan, atau material yang telah terpasang..." required>{{ old('description') }}</textarea>
                                 @error('description')
                                     <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
@@ -184,7 +184,7 @@
                             </div>
 
                             <div>
-                                <label for="photo" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Foto Bukti (Opsional, Max 4MB)</label>
+                                <label for="photo" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Foto Bukti (Opsional, Max 4MB)</label>
                                 <input type="file" name="photo" id="photo" class="w-full text-xs" accept="image/*">
                                 @error('photo')
                                     <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
@@ -200,9 +200,9 @@
             @endif
 
             <!-- Original Damage Report Link -->
-            <div class="bg-white rounded-lg border border-slate-205 shadow-sm p-5 space-y-3">
+            <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm p-5 space-y-3 transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
                 <span class="block text-3xs font-mono font-bold tracking-wider text-slate-400 uppercase">Kerusakan Terkait</span>
-                <h4 class="text-xs font-bold text-slate-900 leading-snug">{{ $workOrder->damageReport->title }}</h4>
+                <h4 class="text-xs font-bold text-white leading-snug">{{ $workOrder->damageReport->title }}</h4>
                 <a href="{{ route('damage-reports.show', $workOrder->damage_report_id) }}" class="text-3xs font-bold text-secondary hover:underline block pt-2 border-t border-slate-100">
                     Buka Laporan Kerusakan Asli &rarr;
                 </a>

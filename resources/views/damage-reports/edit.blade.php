@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto">
-    <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-            <h3 class="text-sm font-bold text-slate-800 uppercase font-mono tracking-wider">Edit Laporan: {{ $report->report_number }}</h3>
-            <a href="{{ route('damage-reports.show', $report->id) }}" class="text-xs text-slate-500 hover:text-slate-800">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+        <div class="px-6 py-4 border-b border-slate-700/50 bg-slate-900/40 flex justify-between items-center">
+            <h3 class="text-sm font-bold text-yellow-400 uppercase font-mono tracking-wider">Edit Laporan: {{ $report->report_number }}</h3>
+            <a href="{{ route('damage-reports.show', $report->id) }}" class="text-xs text-slate-400 hover:text-slate-200">
                 &larr; Batal & Kembali
             </a>
         </div>
@@ -18,7 +18,7 @@
 
             <!-- Title -->
             <div>
-                <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Judul Laporan / Kerusakan</label>
+                <label for="title" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Judul Laporan / Kerusakan</label>
                 <input type="text" name="title" id="title" value="{{ old('title', $report->title) }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
                 @error('title')
                     <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
@@ -28,7 +28,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <!-- Facility -->
                 <div class="sm:col-span-1">
-                    <label for="facility_id" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Fasilitas Terkait</label>
+                    <label for="facility_id" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Fasilitas Terkait</label>
                     <select name="facility_id" id="facility_id" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
                         @foreach($facilities as $fac)
                             <option value="{{ $fac->id }}" {{ old('facility_id', $report->facility_id) == $fac->id ? 'selected' : '' }}>
@@ -43,7 +43,7 @@
 
                 <!-- Damage Category -->
                 <div class="sm:col-span-1">
-                    <label for="damage_category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Kategori Kerusakan</label>
+                    <label for="damage_category_id" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Kategori Kerusakan</label>
                     <select name="damage_category_id" id="damage_category_id" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
                         @foreach($categories as $cat)
                             <option value="{{ $cat->id }}" {{ old('damage_category_id', $report->damage_category_id) == $cat->id ? 'selected' : '' }}>
@@ -58,7 +58,7 @@
 
                 <!-- Severity -->
                 <div class="sm:col-span-1">
-                    <label for="severity" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Tingkat Keparahan</label>
+                    <label for="severity" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Tingkat Keparahan</label>
                     <select name="severity" id="severity" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
                         @foreach($severities as $sev)
                             <option value="{{ $sev->value }}" {{ old('severity', $report->severity->value) === $sev->value ? 'selected' : '' }}>
@@ -74,7 +74,7 @@
 
             <!-- Description -->
             <div>
-                <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Deskripsi Kerusakan</label>
+                <label for="description" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Deskripsi Kerusakan</label>
                 <textarea name="description" id="description" rows="5" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>{{ old('description', $report->description) }}</textarea>
                 @error('description')
                     <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
@@ -86,7 +86,7 @@
                 <span class="block text-xs font-bold uppercase tracking-wider text-slate-655 mb-2">Foto Saat Ini</span>
                 <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
                     @foreach($report->photos as $photo)
-                        <div class="relative h-20 rounded overflow-hidden border border-slate-200">
+                        <div class="relative h-20 rounded overflow-hidden border border-slate-700/50">
                             <img src="{{ asset('storage/' . $photo->photo_path) }}" alt="Foto" class="w-full h-full object-cover">
                         </div>
                     @endforeach
@@ -95,7 +95,7 @@
 
             <!-- Upload More Photos -->
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Unggah Foto Baru (Menambahkan foto saat ini, Maksimal 5 foto)</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Unggah Foto Baru (Menambahkan foto saat ini, Maksimal 5 foto)</label>
                 <input id="photos" name="photos[]" type="file" class="w-full text-xs" multiple accept="image/*">
                 @error('photos')
                     <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
@@ -103,16 +103,20 @@
             </div>
 
             <!-- Coordinates -->
-            <div class="bg-slate-50 p-4 rounded border border-slate-200">
-                <span class="block text-xs font-mono font-bold text-slate-600 mb-2">Override Koordinat GIS (Opsional)</span>
+            <div class="bg-slate-900/40 p-4 rounded border border-slate-700/50">
+                <span class="block text-xs font-mono font-bold text-slate-900 mb-2">Pilih Lokasi Kerusakan pada Peta (Opsional)</span>
+                <p class="text-xs text-slate-500 mb-3">Geser pin atau klik pada peta untuk mengubah koordinat.</p>
+                
+                <div id="mapPicker" class="w-full h-64 rounded border border-slate-300 mb-4 z-10"></div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="latitude" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Latitude</label>
+                        <label for="latitude" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Latitude</label>
                         <input type="text" name="latitude" id="latitude" value="{{ old('latitude', $report->latitude) }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2 font-mono">
                     </div>
 
                     <div>
-                        <label for="longitude" class="block text-xs font-bold uppercase tracking-wider text-slate-650 mb-1">Longitude</label>
+                        <label for="longitude" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Longitude</label>
                         <input type="text" name="longitude" id="longitude" value="{{ old('longitude', $report->longitude) }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2 font-mono">
                     </div>
                 </div>
@@ -128,3 +132,68 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Map Picker Initialization
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+        
+        // Default to Palembang or existing input values
+        let startLat = latInput.value ? parseFloat(latInput.value) : -3.0182;
+        let startLng = lngInput.value ? parseFloat(lngInput.value) : 104.7493;
+        let defaultZoom = latInput.value ? 16 : 15;
+
+        const ptbaBounds = [
+            [-3.0330, 104.7340], // SouthWest
+            [-3.0030, 104.7640]  // NorthEast
+        ];
+
+        const map = L.map('mapPicker', {
+            maxBounds: ptbaBounds,
+            maxBoundsViscosity: 1.0,
+            minZoom: 15
+        }).setView([startLat, startLng], defaultZoom > 15 ? defaultZoom : 16);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let marker;
+
+        // If there's an existing value (e.g. from validation error or existing record), place the marker
+        if (latInput.value && lngInput.value) {
+            marker = L.marker([startLat, startLng], {draggable: true}).addTo(map);
+            
+            marker.on('dragend', function (e) {
+                const position = marker.getLatLng();
+                latInput.value = position.lat.toFixed(6);
+                lngInput.value = position.lng.toFixed(6);
+            });
+        }
+
+        // Click on map to place/move marker
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng, {draggable: true}).addTo(map);
+                marker.on('dragend', function (event) {
+                    const position = marker.getLatLng();
+                    latInput.value = position.lat.toFixed(6);
+                    lngInput.value = position.lng.toFixed(6);
+                });
+            }
+
+            // Update inputs
+            latInput.value = lat.toFixed(6);
+            lngInput.value = lng.toFixed(6);
+        });
+    });
+</script>
+@endpush

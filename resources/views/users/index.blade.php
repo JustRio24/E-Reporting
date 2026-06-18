@@ -5,7 +5,7 @@
 @section('content')
 <div class="space-y-6">
     <!-- Header Controls & Search -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md p-4 rounded-lg border border-slate-700/50 shadow-sm transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <!-- Search & Filter Form -->
         <form action="{{ route('users.index') }}" method="GET" class="flex flex-wrap items-center gap-3 flex-1">
             <div class="w-full sm:w-64 relative">
@@ -35,7 +35,7 @@
             </button>
             
             @if(!empty($filters))
-                <a href="{{ route('users.index') }}" class="text-xs text-slate-500 hover:text-slate-800 underline">Reset</a>
+                <a href="{{ route('users.index') }}" class="text-xs text-slate-400 hover:text-slate-200 underline">Reset</a>
             @endif
         </form>
 
@@ -45,7 +45,7 @@
     </div>
 
     <!-- Data Table -->
-    <div class="bg-white rounded-lg border border-slate-205 shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -58,26 +58,26 @@
                         <th class="py-3.5 px-4 font-semibold text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 text-xs">
+                <tbody class="divide-y divide-slate-700/50 text-xs">
                     @forelse($users as $user)
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="py-3 px-4 font-semibold text-slate-900">{{ $user->name }}</td>
-                            <td class="py-3 px-4 font-mono text-slate-600">{{ $user->email }}</td>
+                        <tr class="hover:bg-slate-700/30 transition-colors">
+                            <td class="py-3 px-4 font-semibold text-white">{{ $user->name }}</td>
+                            <td class="py-3 px-4 font-mono text-slate-300">{{ $user->email }}</td>
                             <td class="py-3 px-4">
                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-3xs font-mono font-bold tracking-wider uppercase border 
-                                    @if($user->isAdmin()) bg-blue-50 text-blue-700 border-blue-200
-                                    @elseif($user->isSupervisor()) bg-amber-50 text-amber-700 border-amber-200
-                                    @elseif($user->isInspector()) bg-emerald-50 text-emerald-700 border-emerald-200
-                                    @else bg-purple-50 text-purple-700 border-purple-200 @endif">
+                                    @if($user->isAdmin()) bg-blue-500/10 text-blue-300 border-blue-500/30
+                                    @elseif($user->isSupervisor()) bg-yellow-500/10 text-yellow-300 border-yellow-500/30
+                                    @elseif($user->isInspector()) bg-emerald-500/10 text-emerald-300 border-emerald-500/30
+                                    @else bg-fuchsia-500/10 text-fuchsia-300 border-fuchsia-500/30 @endif">
                                     {{ $user->role->value }}
                                 </span>
                             </td>
-                            <td class="py-3 px-4 text-slate-500 font-mono">{{ $user->phone ?? '-' }}</td>
+                            <td class="py-3 px-4 text-slate-400 font-mono">{{ $user->phone ?? '-' }}</td>
                             <td class="py-3 px-4 text-center">
                                 @if($user->is_active)
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-3xs font-bold bg-emerald-100 text-emerald-800">AKTIF</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-3xs font-bold bg-emerald-500/20 text-emerald-400">AKTIF</span>
                                 @else
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-3xs font-bold bg-red-100 text-red-800">NONAKTIF</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-3xs font-bold bg-red-500/20 text-red-400">NONAKTIF</span>
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-right space-x-2">
@@ -85,14 +85,14 @@
                                 <form action="{{ route('users.toggle', $user->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="text-3xs font-semibold px-2 py-1 rounded border hover:bg-slate-100 transition-colors 
-                                        {{ $user->is_active ? 'border-red-200 text-red-700' : 'border-emerald-250 text-emerald-700' }}">
+                                    <button type="submit" class="text-3xs font-semibold px-2 py-1 rounded border hover:bg-slate-700/50 transition-colors 
+                                        {{ $user->is_active ? 'border-red-500/30 text-red-300' : 'border-emerald-250 text-emerald-300' }}">
                                         {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                     </button>
                                 </form>
 
                                 <!-- Edit Link -->
-                                <a href="{{ route('users.edit', $user->id) }}" class="inline-block text-3xs font-semibold px-2 py-1 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors">
+                                <a href="{{ route('users.edit', $user->id) }}" class="inline-block text-3xs font-semibold px-2 py-1 rounded border border-slate-600/50 text-slate-300 hover:bg-slate-700/50 transition-colors">
                                     Edit
                                 </a>
 
@@ -101,7 +101,7 @@
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline-block delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="text-3xs font-semibold px-2 py-1 rounded border border-red-300 text-red-650 hover:bg-red-50 transition-colors delete-btn">
+                                        <button type="button" class="text-3xs font-semibold px-2 py-1 rounded border border-red-300 text-red-650 hover:bg-red-500/10 transition-colors delete-btn">
                                             Hapus
                                         </button>
                                     </form>
@@ -110,7 +110,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="py-8 text-center text-slate-400 font-mono">
+                            <td colspan="6" class="py-8 text-center text-yellow-200/80 font-mono">
                                 Data user tidak ditemukan.
                             </td>
                         </tr>
@@ -120,7 +120,7 @@
         </div>
 
         @if($users->hasPages())
-            <div class="px-5 py-4 border-t border-slate-200 bg-slate-50">
+            <div class="px-5 py-4 border-t border-slate-700/50 bg-slate-900/40">
                 {{ $users->links() }}
             </div>
         @endif

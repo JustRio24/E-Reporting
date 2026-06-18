@@ -5,7 +5,7 @@
 @section('content')
 <div class="space-y-6">
     <!-- Filters Card -->
-    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md p-4 rounded-lg border border-slate-700/50 shadow-sm transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <form action="{{ route('work-orders.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
             <div class="w-full sm:w-64 relative">
                 <input type="text" name="search" placeholder="Cari nomor WO atau judul laporan..." value="{{ $filters['search'] ?? '' }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary pl-8 py-2">
@@ -27,13 +27,13 @@
                 Filter
             </button>
             @if(!empty($filters))
-                <a href="{{ route('work-orders.index') }}" class="text-xs text-slate-500 hover:text-slate-800 underline">Reset</a>
+                <a href="{{ route('work-orders.index') }}" class="text-xs text-slate-400 hover:text-slate-200 underline">Reset</a>
             @endif
         </form>
     </div>
 
     <!-- Data List -->
-    <div class="bg-white rounded-lg border border-slate-205 shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -47,29 +47,29 @@
                         <th class="py-3.5 px-4 font-semibold text-right w-1/8">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 text-xs">
+                <tbody class="divide-y divide-slate-700/50 text-xs">
                     @forelse($workOrders as $wo)
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="py-3.5 px-4 font-mono font-bold text-slate-900">{{ $wo->wo_number }}</td>
+                        <tr class="hover:bg-slate-700/30 transition-colors">
+                            <td class="py-3.5 px-4 font-mono font-bold text-white">{{ $wo->wo_number }}</td>
                             <td class="py-3.5 px-4">
-                                <span class="block font-semibold text-slate-800 line-clamp-1">{{ $wo->damageReport->title }}</span>
+                                <span class="block font-semibold text-slate-200 line-clamp-1">{{ $wo->damageReport->title }}</span>
                                 <span class="block text-4xs font-mono text-slate-400 mt-0.5">{{ $wo->damageReport->facility->facility_name }}</span>
                             </td>
-                            <td class="py-3.5 px-4 text-slate-700 font-semibold">{{ $wo->assignee->name }}</td>
+                            <td class="py-3.5 px-4 text-slate-300 font-semibold">{{ $wo->assignee->name }}</td>
                             <td class="py-3.5 px-4 text-center">
                                 <div class="flex items-center justify-center space-x-2">
-                                    <div class="w-12 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                                    <div class="w-12 bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
                                         <div class="bg-secondary h-full" style="width: {{ $wo->progress_percentage }}%"></div>
                                     </div>
-                                    <span class="font-mono text-3xs font-bold text-slate-600">{{ $wo->progress_percentage }}%</span>
+                                    <span class="font-mono text-3xs font-bold text-slate-300">{{ $wo->progress_percentage }}%</span>
                                 </div>
                             </td>
-                            <td class="py-3.5 px-4 font-mono text-slate-600">
+                            <td class="py-3.5 px-4 font-mono text-slate-300">
                                 <span class="{{ $wo->isOverdue() ? 'text-red-600 font-bold' : '' }}">
                                     {{ $wo->due_date->format('d M Y') }}
                                 </span>
                                 @if($wo->isOverdue() && $wo->status->value !== 'completed')
-                                    <span class="inline-block bg-red-100 text-red-800 text-4xs font-bold font-sans px-1 rounded ml-1">TELAT</span>
+                                    <span class="inline-block bg-red-500/20 text-red-400 text-4xs font-bold font-sans px-1 rounded ml-1">TELAT</span>
                                 @endif
                             </td>
                             <td class="py-3.5 px-4 text-center">
@@ -89,7 +89,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="py-8 text-center text-slate-400 font-mono">
+                            <td colspan="7" class="py-8 text-center text-yellow-200/80 font-mono">
                                 Data surat perintah kerja tidak ditemukan.
                             </td>
                         </tr>
@@ -99,7 +99,7 @@
         </div>
 
         @if($workOrders->hasPages())
-            <div class="px-5 py-4 border-t border-slate-200 bg-slate-50">
+            <div class="px-5 py-4 border-t border-slate-700/50 bg-slate-900/40">
                 {{ $workOrders->links() }}
             </div>
         @endif

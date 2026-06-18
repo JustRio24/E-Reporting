@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md p-4 rounded-lg border border-slate-700/50 shadow-sm transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <form action="{{ route('facility-categories.index') }}" method="GET" class="flex items-center gap-3 flex-1">
             <div class="w-full sm:w-64 relative">
                 <input type="text" name="search" placeholder="Cari nama kategori..." value="{{ $filters['search'] ?? '' }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary pl-8 py-2">
@@ -16,7 +16,7 @@
                 Filter
             </button>
             @if(!empty($filters['search']))
-                <a href="{{ route('facility-categories.index') }}" class="text-xs text-slate-500 hover:text-slate-800 underline">Reset</a>
+                <a href="{{ route('facility-categories.index') }}" class="text-xs text-slate-400 hover:text-slate-200 underline">Reset</a>
             @endif
         </form>
 
@@ -25,7 +25,7 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -35,19 +35,19 @@
                         <th class="py-3.5 px-4 font-semibold text-right w-1/4">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 text-xs">
+                <tbody class="divide-y divide-slate-700/50 text-xs">
                     @forelse($categories as $cat)
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="py-3.5 px-4 font-semibold text-slate-900">{{ $cat->name }}</td>
-                            <td class="py-3.5 px-4 text-slate-500 leading-normal">{{ $cat->description ?? '-' }}</td>
+                        <tr class="hover:bg-slate-700/30 transition-colors">
+                            <td class="py-3.5 px-4 font-semibold text-white">{{ $cat->name }}</td>
+                            <td class="py-3.5 px-4 text-slate-400 leading-normal">{{ $cat->description ?? '-' }}</td>
                             <td class="py-3.5 px-4 text-right space-x-2">
-                                <a href="{{ route('facility-categories.edit', $cat->id) }}" class="inline-block text-3xs font-semibold px-2 py-1 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors">
+                                <a href="{{ route('facility-categories.edit', $cat->id) }}" class="inline-block text-3xs font-semibold px-2 py-1 rounded border border-slate-600/50 text-slate-300 hover:bg-slate-700/50 transition-colors">
                                     Edit
                                 </a>
                                 <form action="{{ route('facility-categories.destroy', $cat->id) }}" method="POST" class="inline-block delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="text-3xs font-semibold px-2 py-1 rounded border border-red-300 text-red-650 hover:bg-red-50 transition-colors delete-btn">
+                                    <button type="button" class="text-3xs font-semibold px-2 py-1 rounded border border-red-300 text-red-650 hover:bg-red-500/10 transition-colors delete-btn">
                                         Hapus
                                     </button>
                                 </form>
@@ -55,7 +55,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="py-8 text-center text-slate-400 font-mono">
+                            <td colspan="3" class="py-8 text-center text-yellow-200/80 font-mono">
                                 Data kategori tidak ditemukan.
                             </td>
                         </tr>
@@ -65,7 +65,7 @@
         </div>
 
         @if($categories->hasPages())
-            <div class="px-5 py-4 border-t border-slate-200 bg-slate-55">
+            <div class="px-5 py-4 border-t border-slate-700/50 bg-slate-55">
                 {{ $categories->links() }}
             </div>
         @endif

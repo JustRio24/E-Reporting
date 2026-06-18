@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-slate-50">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-gradient-to-br from-slate-900 via-slate-950 to-zinc-900">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,18 +26,56 @@
         <!-- Scripts & Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <style>
-            .sidebar-link-active {
-                background-color: rgba(255, 255, 255, 0.1);
-                border-left: 4px solid #f26522; /* Safety Orange */
-                color: #ffffff !important;
+        @php
+            $roleAccentBorder = 'border-slate-500';
+            $roleAccentText = 'text-slate-400';
+            $roleAccentHoverText = 'hover:text-slate-300';
+            $roleAccentShadow = 'shadow-slate-500/20';
+            $roleBadgeBg = 'bg-slate-500/10';
+            $roleBadgeText = 'text-slate-300';
+            $roleBadgeBorder = 'border-slate-500/30';
+            
+            if (auth()->check()) {
+                if (auth()->user()->isAdmin()) {
+                    $roleAccentBorder = 'border-yellow-500';
+                    $roleAccentText = 'text-yellow-400';
+                    $roleAccentHoverText = 'hover:text-yellow-300';
+                    $roleAccentShadow = 'shadow-yellow-500/20';
+                    $roleBadgeBg = 'bg-yellow-500/10';
+                    $roleBadgeText = 'text-yellow-300';
+                    $roleBadgeBorder = 'border-yellow-500/30';
+                } elseif (auth()->user()->isInspector()) {
+                    $roleAccentBorder = 'border-blue-600';
+                    $roleAccentText = 'text-blue-400';
+                    $roleAccentHoverText = 'hover:text-blue-300';
+                    $roleAccentShadow = 'shadow-blue-500/20';
+                    $roleBadgeBg = 'bg-blue-500/10';
+                    $roleBadgeText = 'text-blue-300';
+                    $roleBadgeBorder = 'border-blue-500/30';
+                } elseif (auth()->user()->isSupervisor()) {
+                    $roleAccentBorder = 'border-teal-600';
+                    $roleAccentText = 'text-teal-400';
+                    $roleAccentHoverText = 'hover:text-teal-300';
+                    $roleAccentShadow = 'shadow-teal-500/20';
+                    $roleBadgeBg = 'bg-teal-500/10';
+                    $roleBadgeText = 'text-teal-300';
+                    $roleBadgeBorder = 'border-teal-500/30';
+                } elseif (auth()->user()->isMaintenance()) {
+                    $roleAccentBorder = 'border-orange-500';
+                    $roleAccentText = 'text-orange-400';
+                    $roleAccentHoverText = 'hover:text-orange-300';
+                    $roleAccentShadow = 'shadow-orange-500/30';
+                    $roleBadgeBg = 'bg-orange-500/10';
+                    $roleBadgeText = 'text-orange-300';
+                    $roleBadgeBorder = 'border-orange-500/30';
+                }
             }
-        </style>
+        @endphp
     </head>
-    <body class="h-full font-sans antialiased text-slate-900 bg-slate-50">
+    <body class="h-full font-sans antialiased text-white bg-gradient-to-br from-slate-900 via-slate-950 to-zinc-900">
         <div class="flex h-full min-h-screen overflow-hidden">
             <!-- Sidebar (Desktop View) -->
-            <aside class="hidden lg:flex lg:flex-col lg:w-64 bg-slate-900 text-slate-300 border-r border-slate-800 flex-shrink-0">
+            <aside class="hidden lg:flex lg:flex-col lg:w-64 bg-gradient-to-b from-slate-950 via-blue-900/20 to-slate-950 text-slate-300 border-r border-slate-800 flex-shrink-0">
                 <!-- Sidebar Branding Header -->
                 <div class="flex items-center justify-between px-6 py-5 bg-slate-950 border-b border-slate-800">
                     <div>
@@ -49,16 +87,16 @@
                 <!-- Navigation Links -->
                 <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
                     <!-- General / Dashboard -->
-                    <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('dashboard*') ? 'sidebar-link-active' : '' }}">
-                        <svg class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('dashboard*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                        <svg class="w-5 h-5 mr-3 text-slate-300 group-{{ $roleAccentHoverText }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
                         </svg>
                         Dashboard
                     </a>
 
                     <!-- GIS Monitor -->
-                    <a href="{{ route('gis.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('gis-monitoring*') ? 'sidebar-link-active' : '' }}">
-                        <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <a href="{{ route('gis.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('gis-monitoring*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                        <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
@@ -67,8 +105,8 @@
 
                     <!-- Damage Reports (Inspectors, Supervisors, Admins) -->
                     @if(auth()->user()->isAdmin() || auth()->user()->isSupervisor() || auth()->user()->isInspector())
-                        <a href="{{ route('damage-reports.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('damage-reports*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('damage-reports.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('damage-reports*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                             Laporan Kerusakan
@@ -77,8 +115,8 @@
 
                     <!-- Work Orders (Supervisors, Maintenance, Admins) -->
                     @if(auth()->user()->isAdmin() || auth()->user()->isSupervisor() || auth()->user()->isMaintenance())
-                        <a href="{{ route('work-orders.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('work-orders*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('work-orders.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('work-orders*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                             </svg>
                             Perintah Kerja (WO)
@@ -87,40 +125,40 @@
 
                     <!-- Facility Management (Admin only) -->
                     @if(auth()->user()->isAdmin())
-                        <div class="pt-4 pb-2 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">MASTER DATA</div>
+                        <div class="pt-4 pb-2 text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">MASTER DATA</div>
 
-                        <a href="{{ route('facilities.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('facilities*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('facilities.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('facilities*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                             Fasilitas
                         </a>
 
-                        <a href="{{ route('facility-categories.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('facility-categories*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('facility-categories.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('facility-categories*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
                             Kategori Fasilitas
                         </a>
 
-                        <a href="{{ route('locations.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('locations*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('locations.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('locations*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                             </svg>
                             Lokasi / Area
                         </a>
 
-                        <a href="{{ route('damage-categories.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('damage-categories*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('damage-categories.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('damage-categories*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             Kategori Kerusakan
                         </a>
 
-                        <div class="pt-4 pb-2 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">SISTEM</div>
+                        <div class="pt-4 pb-2 text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">SISTEM</div>
 
-                        <a href="{{ route('users.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('users*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('users.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('users*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                             Manajemen User
@@ -129,10 +167,10 @@
 
                     <!-- Reporting (Admin and Supervisor) -->
                     @if(auth()->user()->isAdmin() || auth()->user()->isSupervisor())
-                        <div class="pt-4 pb-2 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">LAPORAN</div>
+                        <div class="pt-4 pb-2 text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">LAPORAN</div>
 
-                        <a href="{{ route('reports.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors duration-150 {{ Request::is('reports*') ? 'sidebar-link-active' : '' }}">
-                            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <a href="{{ route('reports.index') }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800/60 hover:backdrop-blur-md {{ $roleAccentHoverText }} transition-all duration-300 {{ Request::is('reports*') ? 'bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-l-4 shadow-lg ' . $roleAccentBorder . ' ' . $roleAccentShadow . ' ' . $roleAccentText : '' }}">
+                            <svg class="w-5 h-5 mr-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             Rekap & Cetak PDF
@@ -148,7 +186,7 @@
                         </div>
                         <div class="ml-3 overflow-hidden">
                             <p class="text-sm font-semibold text-white truncate">{{ auth()->user()->name }}</p>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-2xs font-bold tracking-wider uppercase font-mono bg-slate-850 text-slate-400 border border-slate-800">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-2xs font-bold tracking-wider uppercase font-mono {{ $roleBadgeBg }} {{ $roleBadgeText }} border {{ $roleBadgeBorder }} transition-all duration-300">
                                 {{ auth()->user()->role->value }}
                             </span>
                         </div>
@@ -159,16 +197,16 @@
             <!-- Main Panel -->
             <div class="flex flex-col flex-1 h-full overflow-hidden">
                 <!-- Top Header -->
-                <header class="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200 shadow-sm z-10 flex-shrink-0">
+                <header class="flex items-center justify-between px-6 py-4 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border-b border-slate-700/50 shadow-sm z-10 flex-shrink-0">
                     <!-- Title / Left side -->
                     <div class="flex items-center">
                         <!-- Mobile menu trigger -->
-                        <button class="mr-4 text-slate-500 lg:hidden focus:outline-none" id="mobile-menu-btn">
+                        <button class="mr-4 text-slate-300 lg:hidden focus:outline-none" id="mobile-menu-btn">
                             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
-                        <h2 class="text-xl font-bold text-slate-800 tracking-tight">
+                        <h2 class="text-xl font-bold text-white tracking-tight">
                             @yield('page-title', 'Dashboard')
                         </h2>
                     </div>
@@ -177,7 +215,7 @@
                     <div class="flex items-center space-x-4">
                         <!-- Notification Tray Dropdown -->
                         <div class="relative">
-                            <button id="notification-btn" class="relative p-1 text-slate-500 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary">
+                            <button id="notification-btn" class="relative p-1 text-slate-300 {{ $roleAccentHoverText }} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary">
                                 <span class="sr-only">Notifikasi</span>
                                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -190,8 +228,8 @@
                             </button>
 
                             <!-- Notification Dropdown Panel -->
-                            <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-md shadow-lg py-1 z-50">
-                                <div class="px-4 py-2 font-semibold text-xs border-b border-slate-100 flex justify-between items-center text-slate-500">
+                            <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border border-slate-700/50 border-t-2 border-t-yellow-500/70 transition-all duration-300 hover:border-yellow-500/50 hover:shadow-lg hover:shadow-yellow-500/10 rounded-md shadow-lg py-1 z-50">
+                                <div class="px-4 py-2 font-semibold text-xs border-b border-slate-100 flex justify-between items-center text-slate-300">
                                     <span>Pemberitahuan</span>
                                     @if(isset($unreadNotificationsCount) && $unreadNotificationsCount > 0)
                                         <form action="{{ route('notifications.mark-all-read') }}" method="POST" class="inline">
@@ -203,12 +241,12 @@
                                 <div class="max-h-64 overflow-y-auto">
                                     @if(isset($unreadNotificationsList) && $unreadNotificationsList->count() > 0)
                                         @foreach($unreadNotificationsList as $notif)
-                                            <div class="px-4 py-3 hover:bg-slate-50 border-b border-slate-50 flex flex-col">
+                                            <div class="px-4 py-3 hover:bg-gradient-to-br from-slate-900 via-slate-950 to-zinc-900 border-b border-slate-50 flex flex-col">
                                                 <div class="flex justify-between items-start">
-                                                    <span class="text-xs font-semibold text-slate-800">{{ $notif->title }}</span>
-                                                    <span class="text-4xs font-mono text-slate-400">{{ $notif->created_at->diffForHumans() }}</span>
+                                                    <span class="text-xs font-semibold text-white">{{ $notif->title }}</span>
+                                                    <span class="text-4xs font-mono text-slate-300">{{ $notif->created_at->diffForHumans() }}</span>
                                                 </div>
-                                                <p class="text-2xs text-slate-500 mt-1 leading-normal">{{ $notif->message }}</p>
+                                                <p class="text-2xs text-slate-300 mt-1 leading-normal">{{ $notif->message }}</p>
                                                 <form action="{{ route('notifications.read', $notif->id) }}" method="POST" class="mt-2 text-right">
                                                     @csrf
                                                     <button type="submit" class="text-4xs font-bold text-secondary hover:underline">Tandai Dibaca</button>
@@ -216,7 +254,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <div class="px-4 py-6 text-center text-xs text-slate-400">
+                                        <div class="px-4 py-6 text-center text-xs text-slate-300">
                                             Tidak ada notifikasi baru.
                                         </div>
                                     @endif
@@ -226,25 +264,25 @@
 
                         <!-- User Profile Dropdown -->
                         <div class="relative">
-                            <button id="profile-dropdown-btn" class="flex items-center text-sm font-medium text-slate-700 hover:text-slate-900 focus:outline-none">
+                            <button id="profile-dropdown-btn" class="flex items-center text-sm font-medium text-slate-300 {{ $roleAccentHoverText }} focus:outline-none">
                                 <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white font-bold text-xs tracking-wide">
                                     {{ substr(auth()->user()->name, 0, 2) }}
                                 </div>
                                 <span class="hidden md:flex items-center ml-2">
                                     {{ auth()->user()->name }}
-                                    <svg class="w-4 h-4 ml-1 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="w-4 h-4 ml-1 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </span>
                             </button>
 
                             <!-- Profile Panel -->
-                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-md shadow-lg py-1 z-50">
-                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100">Profil Saya</a>
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md border border-slate-700/50 border-t-2 border-t-yellow-500/70 transition-all duration-300 hover:border-yellow-500/50 hover:shadow-lg hover:shadow-yellow-500/10 rounded-md shadow-lg py-1 z-50">
+                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-xs text-slate-300 hover:bg-slate-700/50">Profil Saya</a>
                                 <div class="border-t border-slate-100"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 font-medium">
+                                    <button type="submit" class="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-500/10 font-medium">
                                         Keluar / Logout
                                     </button>
                                 </form>
@@ -254,7 +292,7 @@
                 </header>
 
                 <!-- Page Content Area -->
-                <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 bg-slate-50">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 bg-gradient-to-br from-slate-900 via-slate-950 to-zinc-900">
                     @yield('content')
                 </main>
             </div>
@@ -263,16 +301,16 @@
         <!-- Mobile Sidebar Overlay Menu -->
         <div id="mobile-sidebar" class="hidden fixed inset-0 z-40 flex">
             <!-- Backdrop overlay -->
-            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" id="mobile-sidebar-backdrop"></div>
+            <div class="fixed inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-zinc-900/60 backdrop-blur-sm" id="mobile-sidebar-backdrop"></div>
 
             <!-- Mobile content panel -->
-            <aside class="relative flex flex-col w-64 h-full bg-slate-900 text-slate-300">
+            <aside class="relative flex flex-col w-64 h-full bg-gradient-to-b from-slate-950 via-blue-900/20 to-slate-950 text-slate-300">
                 <div class="flex items-center justify-between px-6 py-5 bg-slate-950 border-b border-slate-800">
                     <div>
                         <h1 class="text-lg font-bold tracking-wider text-white">E-REPORTING</h1>
                         <p class="text-xs font-mono tracking-widest text-primary-container">KERTAPATI PORT</p>
                     </div>
-                    <button class="text-slate-400 hover:text-white" id="mobile-menu-close-btn">
+                    <button class="text-slate-300 {{ $roleAccentHoverText }}" id="mobile-menu-close-btn">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -290,7 +328,7 @@
                         </div>
                         <div class="ml-3 overflow-hidden">
                             <p class="text-sm font-semibold text-white truncate">{{ auth()->user()->name }}</p>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-2xs font-bold tracking-wider uppercase font-mono bg-slate-850 text-slate-400 border border-slate-800">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-2xs font-bold tracking-wider uppercase font-mono {{ $roleBadgeBg }} {{ $roleBadgeText }} border {{ $roleBadgeBorder }} transition-all duration-300">
                                 {{ auth()->user()->role->value }}
                             </span>
                         </div>

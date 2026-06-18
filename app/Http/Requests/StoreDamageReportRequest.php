@@ -20,7 +20,7 @@ class StoreDamageReportRequest extends FormRequest
             'facility_id' => ['required', 'exists:facilities,id'],
             'damage_category_id' => ['required', 'exists:damage_categories,id'],
             'severity' => ['required', new Enum(DamageSeverity::class)],
-            'title' => ['required', 'string', 'max' => 255],
+            'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
