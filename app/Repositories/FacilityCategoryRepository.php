@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\FacilityCategory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FacilityCategoryRepository extends BaseRepository
 {
@@ -15,5 +16,17 @@ class FacilityCategoryRepository extends BaseRepository
     public function getAllWithFacilityCount(): Collection
     {
         return $this->newQuery()->withCount('facilities')->orderBy('name')->get();
+    }
+
+    public function paginateWithFilters(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->newQuery()->withCount('facilities');
+
+        if (!empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%")
+                  ->orWhere('description', 'like', "%{$filters['search']}%");
+        }
+
+        return $query->orderBy('name')->paginate($perPage);
     }
 }

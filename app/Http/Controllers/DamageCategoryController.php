@@ -19,7 +19,7 @@ class DamageCategoryController extends Controller
     public function index(Request $request): View
     {
         $filters = $request->only(['search']);
-        $categories = $this->categoryRepo->getPaginated($filters);
+        $categories = $this->categoryRepo->paginateWithFilters($filters);
 
         return view('damage-categories.index', compact('categories', 'filters'));
     }

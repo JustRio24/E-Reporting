@@ -23,7 +23,7 @@ class FacilityController extends Controller
     public function index(Request $request): View
     {
         $filters = $request->only(['category_id', 'location_id', 'search']);
-        $facilities = $this->facilityRepo->getPaginated($filters);
+        $facilities = $this->facilityRepo->paginateWithRelations($filters);
         
         $categories = $this->categoryRepo->all();
         $locations = $this->locationRepo->all();

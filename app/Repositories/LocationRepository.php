@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LocationRepository extends BaseRepository
 {
@@ -23,5 +24,17 @@ class LocationRepository extends BaseRepository
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->get();
+    }
+
+    public function paginateWithFilters(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->newQuery()->withCount('facilities');
+
+        if (!empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%")
+                  ->orWhere('description', 'like', "%{$filters['search']}%");
+        }
+
+        return $query->orderBy('name')->paginate($perPage);
     }
 }

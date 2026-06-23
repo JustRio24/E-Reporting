@@ -19,7 +19,7 @@ class LocationController extends Controller
     public function index(Request $request): View
     {
         $filters = $request->only(['search']);
-        $locations = $this->locationRepo->getPaginated($filters);
+        $locations = $this->locationRepo->paginateWithFilters($filters);
 
         return view('locations.index', compact('locations', 'filters'));
     }
