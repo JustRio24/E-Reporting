@@ -26,6 +26,17 @@ abstract class BaseRepository
         return $this->model->paginate($perPage, $columns);
     }
 
+    public function getPaginated(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->newQuery();
+
+        if (!empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%");
+        }
+
+        return $query->latest()->paginate($perPage);
+    }
+
     public function find(int $id, array $columns = ['*']): ?Model
     {
         return $this->model->find($id, $columns);

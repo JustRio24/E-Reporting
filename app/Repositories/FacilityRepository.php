@@ -12,6 +12,11 @@ class FacilityRepository extends BaseRepository
         parent::__construct($model);
     }
 
+    public function getPaginated(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->paginateWithRelations($filters, $perPage);
+    }
+
     public function paginateWithRelations(array $filters = [], int $perPage = 15): LengthAwarePaginator
     {
         $query = $this->newQuery()->with(['category', 'location']);

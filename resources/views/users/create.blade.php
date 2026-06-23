@@ -4,11 +4,11 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto">
-    <div class="bg-gradient-to-br from-slate-900/80 via-blue-900/40 to-yellow-600/10 backdrop-blur-md rounded-lg border border-slate-700/50 shadow-sm overflow-hidden transition-all duration-500 hover:border-yellow-500/30 hover:shadow-lg hover:shadow-yellow-500/5">
+    <div class="card overflow-hidden transition-all duration-300 hover:shadow-card-hover">
         <!-- Form Header -->
-        <div class="px-6 py-4 border-b border-slate-700/50 bg-slate-900/40 flex justify-between items-center">
+        <div class="px-6 py-4 border-b border-gray-200 bg-surface-50 flex justify-between items-center">
             <h3 class="text-sm font-bold text-yellow-400 uppercase font-mono tracking-wider">Formulir Tambah User</h3>
-            <a href="{{ route('users.index') }}" class="text-xs text-slate-400 hover:text-slate-200 flex items-center">
+            <a href="{{ route('users.index') }}" class="text-xs text-slate-400 hover:text-primary flex items-center">
                 &larr; Kembali
             </a>
         </div>
@@ -20,9 +20,9 @@
             <!-- Name -->
             <div>
                 <label for="name" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Nama Lengkap</label>
-                <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2" required>
                 @error('name')
-                    <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                    <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -31,18 +31,18 @@
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Alamat Email</label>
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2" required>
                     @error('email')
-                        <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                        <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Phone -->
                 <div>
                     <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Nomor Telepon</label>
-                    <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2">
+                    <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2">
                     @error('phone')
-                        <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                        <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
@@ -50,7 +50,7 @@
             <!-- Role Select -->
             <div>
                 <label for="role" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Peran / Role</label>
-                <select name="role" id="role" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                <select name="role" id="role" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2" required>
                     <option value="" disabled selected>Pilih peran...</option>
                     @foreach($roles as $role)
                         <option value="{{ $role->value }}" {{ old('role') === $role->value ? 'selected' : '' }}>
@@ -59,7 +59,7 @@
                     @endforeach
                 </select>
                 @error('role')
-                    <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                    <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -68,22 +68,22 @@
                 <!-- Password -->
                 <div>
                     <label for="password" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Password</label>
-                    <input type="password" name="password" id="password" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                    <input type="password" name="password" id="password" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2" required>
                     @error('password')
-                        <p class="text-2xs text-red-650 mt-1 font-mono">{{ $message }}</p>
+                        <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Confirm Password -->
                 <div>
                     <label for="password_confirmation" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-full text-xs rounded border-slate-350 focus:border-secondary focus:ring-secondary py-2" required>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2" required>
                 </div>
             </div>
 
             <!-- Submit Button -->
-            <div class="pt-4 border-t border-slate-100 flex justify-end">
-                <button type="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
+            <div class="pt-4 border-t border-gray-100 flex justify-end">
+                <button type="submit" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
                     Simpan User
                 </button>
             </div>
