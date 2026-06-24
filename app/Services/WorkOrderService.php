@@ -48,8 +48,8 @@ class WorkOrderService
             // Notify the assigned maintenance team member
             $this->notificationService->notify(
                 $data['assigned_to'],
-                'New Work Order Assigned',
-                "You have been assigned to repair: {$report->title} (Report: {$report->report_number}). Due date: {$data['due_date']}."
+                'Perintah Kerja (WO) Baru',
+                "Anda ditugaskan untuk perbaikan: {$report->title} (No. Laporan: {$report->report_number}). Batas waktu: {$data['due_date']}."
             );
 
             return $workOrder;
@@ -107,8 +107,8 @@ class WorkOrderService
             // Notify the supervisor who created the work order
             $this->notificationService->notify(
                 $workOrder->assigned_by,
-                'Repair Completed — Verification Needed',
-                "Repair for {$workOrder->damageReport->report_number} has been completed and requires your verification."
+                'Perbaikan Selesai — Menunggu Verifikasi',
+                "Perbaikan untuk laporan {$workOrder->damageReport->report_number} telah selesai dan membutuhkan verifikasi Anda."
             );
 
             return $workOrder->fresh();

@@ -50,7 +50,7 @@
             @endif
 
             <!-- If Work Order exists: View WO -->
-            @if($report->workOrder)
+            @if($report->workOrder && !auth()->user()->isInspector())
                 <a href="{{ route('work-orders.show', $report->workOrder->id) }}" class="bg-slate-905 text-slate-800 text-xs font-bold tracking-wider uppercase px-4 py-2.5 rounded hover:bg-slate-800 transition-colors">
                     Lihat Perintah Kerja (WO)
                 </a>

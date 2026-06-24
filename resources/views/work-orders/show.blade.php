@@ -15,7 +15,7 @@
         <div class="flex items-center gap-2">
             <!-- Action to Start WO -->
             @if($workOrder->status->value === 'pending')
-                @if(auth()->user()->isSupervisor())
+                @if(auth()->id() === $workOrder->assigned_to || auth()->user()->isAdmin())
                     <form action="{{ route('work-orders.start', $workOrder->id) }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-primary-dark transition-colors">
@@ -67,12 +67,16 @@
                 <div class="p-6 space-y-6">
                     <!-- Progress Bar Header -->
                     <div class="bg-surface-50 p-4 rounded border border-gray-200">
-                        <div class="flex justify-between items-center mb-1 text-xs">
+                        <div class="flex justify-between items-center mb-2 text-xs">
                             <span class="font-bold text-blue-200">Kemajuan Progres Perbaikan</span>
-                            <span class="font-mono font-bold text-secondary text-sm">{{ $workOrder->progress_percentage }}%</span>
+                            <span class="font-mono font-bold text-success text-sm">{{ $workOrder->progress_percentage }}%</span>
                         </div>
-                        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                            <div class="bg-secondary h-full transition-all duration-300" style="width: {{ $workOrder->progress_percentage }}%"></div>
+                        <div class="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
+                            <div class="bg-success h-full transition-all duration-300 flex items-center justify-center text-[10px] font-bold text-white shadow-sm" style="width: {{ $workOrder->progress_percentage }}%">
+                                @if($workOrder->progress_percentage > 5)
+                                    {{ $workOrder->progress_percentage }}%
+                                @endif
+                            </div>
                         </div>
                     </div>
 

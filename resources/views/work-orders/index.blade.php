@@ -59,7 +59,7 @@
                             <td class="py-3.5 px-4 text-center">
                                 <div class="flex items-center justify-center space-x-2">
                                     <div class="w-12 bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                                        <div class="bg-secondary h-full" style="width: {{ $wo->progress_percentage }}%"></div>
+                                        <div class="bg-success h-full" style="width: {{ $wo->progress_percentage }}%"></div>
                                     </div>
                                     <span class="font-mono text-[11px] font-bold text-slate-500">{{ $wo->progress_percentage }}%</span>
                                 </div>

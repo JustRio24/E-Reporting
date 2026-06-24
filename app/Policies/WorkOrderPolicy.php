@@ -55,11 +55,16 @@ class WorkOrderPolicy
 
     public function startWork(User $user, WorkOrder $workOrder): bool
     {
-        return $user->role === UserRole::SUPERVISOR;
+        return $user->role === UserRole::ADMIN || $user->id === $workOrder->assigned_to;
     }
 
     public function completeWork(User $user, WorkOrder $workOrder): bool
     {
         return $user->role === UserRole::SUPERVISOR || $user->role === UserRole::ADMIN || $user->id === $workOrder->assigned_to;
+    }
+
+    public function createProgress(User $user, WorkOrder $workOrder): bool
+    {
+        return $user->role === UserRole::ADMIN || $user->id === $workOrder->assigned_to;
     }
 }

@@ -64,7 +64,19 @@ class DamageReportService
      */
     public function submit(DamageReport $report, User $user): DamageReport
     {
-        return $this->transitionStatus($report, DamageStatus::REPORTED, $user, 'Report submitted for review.');
+        $report = $this->transitionStatus($report, DamageStatus::REPORTED, $user, 'Report submitted for review.');
+
+        // Notify Supervisor and Admin
+        $recipients = User::whereIn('role', [\App\Enums\UserRole::ADMIN, \App\Enums\UserRole::SUPERVISOR])->get();
+        foreach ($recipients as $recipient) {
+            $this->notificationService->notify(
+                $recipient->id,
+                'Laporan Kerusakan Baru',
+                "Inspektor {$user->name} telah membuat laporan baru: {$report->title} (No: {$report->report_number}). Menunggu verifikasi."
+            );
+        }
+
+        return $report;
     }
 
     /**
@@ -77,8 +89,8 @@ class DamageReportService
         // Notify the reporter
         $this->notificationService->notify(
             $report->reporter_id,
-            'Report Verified',
-            "Your report {$report->report_number} has been verified by {$supervisor->name}."
+            'Laporan Diverifikasi',
+            "Laporan Anda {$report->report_number} telah diverifikasi oleh {$supervisor->name}."
         );
 
         return $report;

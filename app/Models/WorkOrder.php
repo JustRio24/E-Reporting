@@ -69,4 +69,10 @@ class WorkOrder extends Model
                $this->status !== WorkOrderStatus::COMPLETED &&
                $this->status !== WorkOrderStatus::CANCELLED;
     }
+
+    public function getProgressPercentageAttribute(): int
+    {
+        $latest = $this->progressEntries()->latest('created_at')->first();
+        return $latest ? (int) $latest->progress_percentage : 0;
+    }
 }

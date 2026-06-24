@@ -47,6 +47,11 @@ export default {
                     200: '#e2e8f0',
                     300: '#cbd5e1',
                 },
+                secondary: {
+                    DEFAULT: '#eab308', // Amber/Yellow
+                    dark: '#ca8a04',
+                    container: '#fef08a',
+                },
                 success: '#059669',
                 warning: '#d97706',
                 error: '#dc2626',
