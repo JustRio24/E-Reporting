@@ -72,4 +72,12 @@ class FacilityService
     {
         return $this->locationRepository->getAllWithFacilityCount();
     }
+
+    /**
+     * Get all facilities with GPS coordinates for GIS map.
+     */
+    public function getFacilitiesForMap(): array
+    {
+        return $this->facilityRepository->getAllWithCoordinates();
+    }
 }

@@ -7,9 +7,11 @@ use App\Http\Requests\UpdateFacilityRequest;
 use App\Repositories\FacilityRepository;
 use App\Repositories\FacilityCategoryRepository;
 use App\Repositories\LocationRepository;
+use App\Services\ImageService;
 use App\Models\Facility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class FacilityController extends Controller
@@ -18,6 +20,7 @@ class FacilityController extends Controller
         protected FacilityRepository $facilityRepo,
         protected FacilityCategoryRepository $categoryRepo,
         protected LocationRepository $locationRepo,
+        protected ImageService $imageService,
     ) {}
 
     public function index(Request $request): View
@@ -41,7 +44,18 @@ class FacilityController extends Controller
 
     public function store(StoreFacilityRequest $request): RedirectResponse
     {
-        $this->facilityRepo->create($request->validated());
+        $data = $request->validated();
+
+        // Handle photo upload with compression
+        if ($request->hasFile('photo')) {
+            $data['photo_path'] = $this->imageService->compressAndStore(
+                $request->file('photo'),
+                'facilities',
+                2048 // 2MB max
+            );
+        }
+
+        $this->facilityRepo->create($data);
 
         return redirect()->route('facilities.index')->with('success', 'Fasilitas berhasil ditambahkan.');
     }
@@ -57,7 +71,23 @@ class FacilityController extends Controller
 
     public function update(UpdateFacilityRequest $request, int $id): RedirectResponse
     {
-        $this->facilityRepo->update($id, $request->validated());
+        $data = $request->validated();
+        $facility = Facility::findOrFail($id);
+
+        // Handle photo upload with compression
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($facility->photo_path) {
+                Storage::disk('public')->delete($facility->photo_path);
+            }
+            $data['photo_path'] = $this->imageService->compressAndStore(
+                $request->file('photo'),
+                'facilities',
+                2048 // 2MB max
+            );
+        }
+
+        $this->facilityRepo->update($id, $data);
 
         return redirect()->route('facilities.index')->with('success', 'Fasilitas berhasil diperbarui.');
     }
@@ -69,6 +99,11 @@ class FacilityController extends Controller
         // Check if there are damage reports on this facility
         if ($facility->damageReports()->count() > 0) {
             return redirect()->back()->with('error', 'Fasilitas ini tidak dapat dihapus karena terdapat laporan kerusakan yang terikat (Constraint Rule).');
+        }
+
+        // Delete photo if exists
+        if ($facility->photo_path) {
+            Storage::disk('public')->delete($facility->photo_path);
         }
 
         $facility->delete();

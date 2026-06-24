@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\DamageReportService;
+use App\Services\FacilityService;
 use App\Enums\DamageStatus;
 use App\Enums\DamageSeverity;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +14,7 @@ class GisController extends Controller
 {
     public function __construct(
         protected DamageReportService $reportService,
+        protected FacilityService $facilityService,
     ) {}
 
     public function index(): View
@@ -29,5 +31,12 @@ class GisController extends Controller
         $mapData = $this->reportService->getMapData($filters);
 
         return response()->json($mapData);
+    }
+
+    public function facilitiesData(): JsonResponse
+    {
+        $facilities = $this->facilityService->getFacilitiesForMap();
+
+        return response()->json($facilities);
     }
 }

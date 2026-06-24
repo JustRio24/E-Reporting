@@ -45,4 +45,14 @@ class FacilityRepository extends BaseRepository
             ->with(['category', 'location', 'damageReports'])
             ->findOrFail($id);
     }
+
+    public function getAllWithCoordinates(): array
+    {
+        return $this->newQuery()
+            ->with(['category', 'location'])
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get()
+            ->toArray();
+    }
 }

@@ -14,7 +14,7 @@ class StoreDamageCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max' => 255, 'unique:damage_categories,name'],
+            'name' => ['required', 'string', 'max:255', 'unique:damage_categories,name'],
             'description' => ['nullable', 'string'],
         ];
     }

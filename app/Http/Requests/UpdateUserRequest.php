@@ -19,11 +19,11 @@ class UpdateUserRequest extends FormRequest
         $userId = $this->route('user')?->id ?? $this->route('user');
 
         return [
-            'name' => ['required', 'string', 'max' => 255],
-            'email' => ['required', 'string', 'email', 'max' => 255, 'unique:users,email,' . $userId],
-            'password' => ['nullable', 'string', 'min' => 8, 'confirmed'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $userId],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'role' => ['required', new Enum(UserRole::class)],
-            'phone' => ['nullable', 'string', 'max' => 20],
+            'phone' => ['nullable', 'string', 'max:20'],
             'is_active' => ['nullable', 'boolean'],
         ];
     }

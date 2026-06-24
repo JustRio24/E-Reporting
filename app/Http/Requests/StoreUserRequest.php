@@ -16,11 +16,11 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max' => 255],
-            'email' => ['required', 'string', 'email', 'max' => 255, 'unique:users,email'],
-            'password' => ['required', 'string', 'min' => 8, 'confirmed'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', new Enum(UserRole::class)],
-            'phone' => ['nullable', 'string', 'max' => 20],
+            'phone' => ['nullable', 'string', 'max:20'],
             'is_active' => ['nullable', 'boolean'],
         ];
     }

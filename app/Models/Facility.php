@@ -17,6 +17,7 @@ class Facility extends Model
         'facility_category_id',
         'location_id',
         'description',
+        'photo_path',
         'latitude',
         'longitude',
     ];

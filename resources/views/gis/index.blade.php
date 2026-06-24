@@ -6,12 +6,12 @@
 <div class="h-[calc(100vh-140px)] flex flex-col relative rounded-lg border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-card-hover">
     <!-- Floating Filter Box -->
     <div class="absolute top-4 left-4 z-[1000] bg-white/95 backdrop-blur-md p-4 rounded-lg border border-gray-200 shadow-lg max-w-xs w-full space-y-3.5 transition-all duration-300 hover:shadow-card-hover">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono flex items-center">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono flex items-center">
             <span class="mr-2">🔍</span> Filter Peta GIS
         </h4>
 
         <div>
-            <label for="filter-status" class="block text-[11px] font-mono font-bold uppercase text-slate-400 mb-1">Status Laporan</label>
+            <label for="filter-status" class="block text-[11px] font-mono font-bold uppercase text-slate-600 mb-1">Status Laporan</label>
             <select id="filter-status" class="w-full text-xs rounded border-slate-600/50 focus:border-primary focus:ring-primary/20 py-1.5 font-mono">
                 <option value="">Semua Status</option>
                 @foreach($statuses as $st)
@@ -21,7 +21,7 @@
         </div>
 
         <div>
-            <label for="filter-severity" class="block text-[11px] font-mono font-bold uppercase text-slate-400 mb-1">Tingkat Keparahan</label>
+            <label for="filter-severity" class="block text-[11px] font-mono font-bold uppercase text-slate-600 mb-1">Tingkat Keparahan</label>
             <select id="filter-severity" class="w-full text-xs rounded border-slate-600/50 focus:border-primary focus:ring-primary/20 py-1.5 font-mono">
                 <option value="">Semua Keparahan</option>
                 @foreach($severities as $sev)

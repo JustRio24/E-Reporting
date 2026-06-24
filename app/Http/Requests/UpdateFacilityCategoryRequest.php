@@ -16,7 +16,7 @@ class UpdateFacilityCategoryRequest extends FormRequest
         $categoryId = $this->route('facility_category')?->id ?? $this->route('facility_category');
 
         return [
-            'name' => ['required', 'string', 'max' => 255, 'unique:facility_categories,name,' . $categoryId],
+            'name' => ['required', 'string', 'max:255', 'unique:facility_categories,name,' . $categoryId],
             'description' => ['nullable', 'string'],
         ];
     }

@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use App\Policies\FacilityCategoryPolicy;
+use App\Policies\LocationPolicy;
+use App\Models\FacilityCategory;
+use App\Models\Location;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register policies
+        Gate::policy(FacilityCategory::class, FacilityCategoryPolicy::class);
+        Gate::policy(Location::class, LocationPolicy::class);
+
         \Illuminate\Support\Facades\View::composer('*', function ($view) {
             if (auth()->check()) {
                 try {

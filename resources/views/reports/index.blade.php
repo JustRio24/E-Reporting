@@ -83,7 +83,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-900 text-slate-800 font-mono text-xs uppercase">
+                    <tr class="bg-slate-900 text-white font-mono text-xs uppercase">
                         <th class="py-3.5 px-4 font-semibold w-1/8">No. Laporan</th>
                         <th class="py-3.5 px-4 font-semibold w-1/8">Tanggal</th>
                         <th class="py-3.5 px-4 font-semibold w-1/4">Fasilitas</th>

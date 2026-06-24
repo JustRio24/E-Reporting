@@ -38,6 +38,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     // GIS Monitoring
     Route::get('/gis-monitoring', [GisController::class, 'index'])->name('gis.index');
     Route::get('/gis-monitoring/data', [GisController::class, 'mapData'])->name('gis.data');
+    Route::get('/gis-monitoring/facilities', [GisController::class, 'facilitiesData'])->name('gis.facilities');
 
     // Master Data & Management (Restricted by roles)
     

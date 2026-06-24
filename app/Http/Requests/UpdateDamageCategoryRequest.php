@@ -16,7 +16,7 @@ class UpdateDamageCategoryRequest extends FormRequest
         $categoryId = $this->route('damage_category')?->id ?? $this->route('damage_category');
 
         return [
-            'name' => ['required', 'string', 'max' => 255, 'unique:damage_categories,name,' . $categoryId],
+            'name' => ['required', 'string', 'max:255', 'unique:damage_categories,name,' . $categoryId],
             'description' => ['nullable', 'string'],
         ];
     }
