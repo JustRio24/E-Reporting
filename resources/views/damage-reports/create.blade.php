@@ -31,7 +31,7 @@
                     <select name="facility_id" id="facility_id" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2" required>
                         <option value="" disabled selected>Pilih fasilitas...</option>
                         @foreach($facilities as $fac)
-                            <option value="{{ $fac->id }}" {{ old('facility_id') == $fac->id ? 'selected' : '' }}>
+                            <option value="{{ $fac->id }}" data-lat="{{ $fac->latitude }}" data-lng="{{ $fac->longitude }}" {{ old('facility_id') == $fac->id ? 'selected' : '' }}>
                                 {{ $fac->facility_code }} - {{ $fac->facility_name }}
                             </option>
                         @endforeach
@@ -193,6 +193,34 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // Load existing facilities as blue pins
+        let facilitiesLayer = L.layerGroup().addTo(map);
+        fetch('/gis-monitoring/facilities')
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(function (facility) {
+                    if (facility.latitude && facility.longitude) {
+                        const markerColor = '#3b82f6';
+                        const customIcon = L.divIcon({
+                            html: `<div style="background-color: ${markerColor}; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3)"></div>`,
+                            className: 'custom-div-icon',
+                            iconSize: [12, 12],
+                            iconAnchor: [6, 6]
+                        });
+                        const popupContent = `
+                            <div class="font-sans text-xs p-1">
+                                <div class="font-bold text-slate-700">${facility.facility_name}</div>
+                                <div class="text-slate-500 font-mono mt-0.5 text-[10px]">${facility.facility_code}</div>
+                            </div>
+                        `;
+                        const facMarker = L.marker([facility.latitude, facility.longitude], { icon: customIcon })
+                            .bindPopup(popupContent);
+                        facilitiesLayer.addLayer(facMarker);
+                    }
+                });
+            })
+            .catch(err => console.error("Gagal memuat fasilitas:", err));
+
         let marker;
 
         // If there's an existing value (e.g. from validation error), place the marker
@@ -225,6 +253,36 @@
             // Update inputs
             latInput.value = lat.toFixed(6);
             lngInput.value = lng.toFixed(6);
+        });
+
+        // Auto-mark when a facility is selected
+        const facilitySelect = document.getElementById('facility_id');
+        facilitySelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const lat = selectedOption.getAttribute('data-lat');
+            const lng = selectedOption.getAttribute('data-lng');
+
+            if (lat && lng) {
+                const latFloat = parseFloat(lat);
+                const lngFloat = parseFloat(lng);
+                const latlng = [latFloat, lngFloat];
+
+                if (marker) {
+                    marker.setLatLng(latlng);
+                } else {
+                    marker = L.marker(latlng, {draggable: true}).addTo(map);
+                    marker.on('dragend', function (event) {
+                        const position = marker.getLatLng();
+                        latInput.value = position.lat.toFixed(6);
+                        lngInput.value = position.lng.toFixed(6);
+                    });
+                }
+
+                // Update inputs and pan map
+                latInput.value = latFloat.toFixed(6);
+                lngInput.value = lngFloat.toFixed(6);
+                map.flyTo(latlng, 17, { duration: 1 });
+            }
         });
     });
 </script>

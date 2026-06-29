@@ -57,6 +57,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::resource('damage-reports', DamageReportController::class);
     Route::post('/damage-reports/{damage_report}/submit', [DamageReportController::class, 'submit'])->name('damage-reports.submit');
     Route::post('/damage-reports/{damage_report}/verify', [DamageReportController::class, 'verify'])->name('damage-reports.verify');
+    Route::post('/damage-reports/{damage_report}/verify-completion', [DamageReportController::class, 'verifyCompletion'])->name('damage-reports.verify-completion');
 
     // Work Orders
     Route::resource('work-orders', WorkOrderController::class);

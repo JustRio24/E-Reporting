@@ -40,6 +40,18 @@
                 @endif
             @endif
 
+            <!-- If Waiting Verification: Supervisor verifies final completion -->
+            @if($report->status->value === 'waiting_verification')
+                @if(auth()->user()->isSupervisor() || auth()->user()->isAdmin())
+                    <button onclick="openVerificationModal('verify', '{{ route('damage-reports.verify-completion', $report->id) }}')" class="bg-success text-slate-800 text-xs font-bold tracking-wider uppercase px-4 py-2.5 rounded hover:bg-emerald-700 transition-colors">
+                        Verifikasi Selesai
+                    </button>
+                    <button onclick="openVerificationModal('reject', '{{ route('damage-reports.verify-completion', $report->id) }}')" class="bg-error text-slate-800 text-xs font-bold tracking-wider uppercase px-4 py-2.5 rounded hover:bg-red-700 transition-colors">
+                        Tolak Pekerjaan
+                    </button>
+                @endif
+            @endif
+
             <!-- If Verified: Supervisor/Admin can issue Work Order -->
             @if($report->status->value === 'verified')
                 @if(auth()->user()->isSupervisor() || auth()->user()->isAdmin())
@@ -208,7 +220,7 @@
         <div class="px-5 py-4 border-b border-gray-100 bg-surface-50">
             <h3 class="text-sm font-bold text-yellow-400 uppercase font-mono tracking-wider" id="modal-title">Verifikasi Laporan</h3>
         </div>
-        <form action="{{ route('damage-reports.verify', $report->id) }}" method="POST" class="p-5 space-y-4">
+        <form action="{{ route('damage-reports.verify', $report->id) }}" method="POST" id="verification-form" class="p-5 space-y-4">
             @csrf
             <input type="hidden" name="action" id="modal-action-input">
             
@@ -278,21 +290,28 @@
         });
     }
 
-    function openVerificationModal(action) {
+    function openVerificationModal(action, url = null) {
         const modal = document.getElementById('verification-modal');
+        const form = document.getElementById('verification-form');
         const actionInput = document.getElementById('modal-action-input');
         const title = document.getElementById('modal-title');
         const submitBtn = document.getElementById('modal-submit-btn');
 
+        if (url) {
+            form.action = url;
+        } else {
+            form.action = "{{ route('damage-reports.verify', $report->id) }}";
+        }
+
         actionInput.value = action;
         
         if (action === 'verify') {
-            title.textContent = 'Verifikasi & Setujui Laporan';
-            submitBtn.textContent = 'Setujui Laporan';
+            title.textContent = 'Verifikasi & Setujui';
+            submitBtn.textContent = 'Setujui';
             submitBtn.className = 'bg-success text-slate-800 text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-emerald-700 shadow-sm';
         } else {
-            title.textContent = 'Tolak & Kembalikan Laporan';
-            submitBtn.textContent = 'Tolak Laporan';
+            title.textContent = 'Tolak & Kembalikan';
+            submitBtn.textContent = 'Tolak';
             submitBtn.className = 'bg-error text-slate-800 text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-red-700 shadow-sm';
         }
 

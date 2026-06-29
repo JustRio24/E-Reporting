@@ -170,6 +170,31 @@ class DamageReportController extends Controller
         return redirect()->route('damage-reports.show', $id)->with('success', $message);
     }
 
+    public function verifyCompletion(Request $request, int $id): RedirectResponse
+    {
+        $report = DamageReport::findOrFail($id);
+
+        // Check policy: only supervisor or admin can verify completion
+        $this->authorize('verifyCompletion', $report);
+
+        $action = $request->input('action'); // 'verify' or 'reject'
+        $notes = $request->input('notes', 'Verifikasi akhir oleh Pengawas.');
+
+        if ($action === 'verify') {
+            $this->reportService->transitionStatus($report, DamageStatus::COMPLETED, auth()->user(), 'Pekerjaan disetujui: ' . $notes);
+            $message = 'Hasil pekerjaan berhasil diverifikasi dan laporan ditutup.';
+        } else {
+            $this->reportService->transitionStatus($report, DamageStatus::IN_PROGRESS, auth()->user(), 'Pekerjaan ditolak: ' . $notes);
+            // Also need to revert WorkOrder status to IN_PROGRESS
+            if ($report->workOrder) {
+                $report->workOrder->update(['status' => \App\Enums\WorkOrderStatus::IN_PROGRESS]);
+            }
+            $message = 'Hasil pekerjaan ditolak dan dikembalikan ke tim pemeliharaan.';
+        }
+
+        return redirect()->route('damage-reports.show', $id)->with('success', $message);
+    }
+
     public function destroy(int $id): RedirectResponse
     {
         $report = DamageReport::findOrFail($id);
