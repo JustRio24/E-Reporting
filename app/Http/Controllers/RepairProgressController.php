@@ -27,10 +27,10 @@ class RepairProgressController extends Controller
             return redirect()->back()->with('error', 'Persentase progres baru tidak boleh lebih kecil dari progres saat ini (' . $workOrder->progress_percentage . '%).');
         }
 
-        $photo = $request->file('photo');
+        $photos = $request->file('photo', []);
 
         // Add progress via service
-        $this->progressService->addProgress($workOrder, $request->validated(), $photo, auth()->user());
+        $this->progressService->addProgress($workOrder, $request->validated(), $photos, auth()->user());
 
         return redirect()->route('work-orders.show', $workOrder->id)->with('success', 'Progres perbaikan berhasil diperbarui.');
     }

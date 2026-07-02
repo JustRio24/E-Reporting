@@ -134,9 +134,13 @@
                                             <div class="flex-1 min-w-0 pt-1.5 flex justify-between space-x-4">
                                                 <div>
                                                     <p class="text-xs text-slate-500 leading-normal">{{ $entry->description }}</p>
-                                                    @if($entry->photo_path)
-                                                        <div class="mt-3 max-w-[200px] h-28 rounded overflow-hidden border border-gray-200 cursor-pointer" onclick="viewPhoto('{{ asset('storage/' . $entry->photo_path) }}')">
-                                                            <img src="{{ asset('storage/' . $entry->photo_path) }}" alt="Foto Progres" class="w-full h-full object-cover">
+                                                    @if(!empty($entry->photo))
+                                                        <div class="mt-3 flex flex-wrap gap-2">
+                                                            @foreach($entry->photo as $photoPath)
+                                                                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded overflow-hidden border border-gray-200 cursor-pointer" onclick="viewPhoto('{{ asset('storage/' . $photoPath) }}')">
+                                                                    <img src="{{ asset('storage/' . $photoPath) }}" alt="Foto Progres" class="w-full h-full object-cover">
+                                                                </div>
+                                                            @endforeach
                                                         </div>
                                                     @endif
                                                 </div>
@@ -188,8 +192,8 @@
                             </div>
 
                             <div>
-                                <label for="photo" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Foto Bukti (Opsional, Max 4MB)</label>
-                                <input type="file" name="photo" id="photo" class="w-full text-xs" accept="image/*">
+                                <label for="photo" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Foto Bukti (Opsional, Max 5 Foto, @4MB)</label>
+                                <input type="file" name="photo[]" id="photo" class="w-full text-xs" accept="image/*" multiple>
                                 @error('photo')
                                     <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                                 @enderror

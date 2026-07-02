@@ -20,14 +20,18 @@ class RepairProgressService
     /**
      * Add a progress entry to a work order.
      */
-    public function addProgress(WorkOrder $workOrder, array $data, ?UploadedFile $photo, User $creator): RepairProgress
+    public function addProgress(WorkOrder $workOrder, array $data, array $photos, User $creator): RepairProgress
     {
         $data['work_order_id'] = $workOrder->id;
         $data['created_by'] = $creator->id;
 
-        if ($photo) {
-            $data['photo'] = $photo->store('repair-progress', 'public');
+        $photoPaths = [];
+        foreach ($photos as $photo) {
+            if ($photo instanceof UploadedFile) {
+                $photoPaths[] = $photo->store('repair-progress', 'public');
+            }
         }
+        $data['photo'] = !empty($photoPaths) ? $photoPaths : null;
 
         // Validate percentage bounds
         $data['progress_percentage'] = max(0, min(100, (int) $data['progress_percentage']));

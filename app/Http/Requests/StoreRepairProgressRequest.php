@@ -17,7 +17,8 @@ class StoreRepairProgressRequest extends FormRequest
         return [
             'progress_percentage' => ['required', 'integer', 'between:0,100'],
             'description' => ['required', 'string'],
-            'photo' => ['nullable', 'image', 'max:4096'],
+            'photo' => ['nullable', 'array', 'max:5'],
+            'photo.*' => ['image', 'max:4096'],
         ];
     }
 }

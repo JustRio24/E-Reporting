@@ -25,6 +25,7 @@ class RepairProgress extends Model
     {
         return [
             'progress_percentage' => 'integer',
+            'photo' => 'array',
         ];
     }
 
@@ -43,14 +44,16 @@ class RepairProgress extends Model
     // ─── Accessors ──────────────────────────────────────────
 
     /**
-     * Get the full URL to the evidence photo.
+     * Get the full URLs to the evidence photos.
      */
-    public function getPhotoUrlAttribute(): ?string
+    public function getPhotoUrlsAttribute(): array
     {
-        if (!$this->photo) {
-            return null;
+        if (empty($this->photo)) {
+            return [];
         }
 
-        return Storage::disk('public')->url($this->photo);
+        return array_map(function ($path) {
+            return Storage::disk('public')->url($path);
+        }, $this->photo);
     }
 }
