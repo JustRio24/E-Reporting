@@ -132,10 +132,11 @@
     <table class="data-table">
         <thead>
             <tr>
-                <th style="width: 12%;">No. Laporan</th>
-                <th style="width: 10%;">Tanggal</th>
-                <th style="width: 18%;">Fasilitas</th>
-                <th style="width: 32%;">Judul Laporan & Deskripsi</th>
+                <th style="width: 10%;">No. Laporan</th>
+                <th style="width: 8%;">Tanggal</th>
+                <th style="width: 15%;">Fasilitas</th>
+                <th style="width: 25%;">Judul Laporan & Deskripsi</th>
+                <th style="width: 14%;">Waktu Pengerjaan</th>
                 <th style="width: 10%; text-align: center;">Tingkat</th>
                 <th style="width: 10%; text-align: center;">Status</th>
                 <th style="width: 8%;">Pelapor</th>
@@ -152,7 +153,31 @@
                     </td>
                     <td>
                         <strong>{{ $rep->title }}</strong><br>
-                        <span style="font-size: 9px; color: #555555;">{{ Str::limit($rep->description, 120) }}</span>
+                        <span style="font-size: 9px; color: #555555;">{{ Str::limit($rep->description, 100) }}</span>
+                    </td>
+                    <td class="code-font" style="font-size: 8px;">
+                        @if($rep->workOrder)
+                            @php
+                                $startLog = $rep->statusHistories->where('new_status', \App\Enums\DamageStatus::IN_PROGRESS)->last();
+                                $finishLog = $rep->statusHistories->where('new_status', \App\Enums\DamageStatus::WAITING_VERIFICATION)->last();
+                                
+                                $startTime = $startLog ? $startLog->created_at->format('d/m/Y H:i') : 'Belum dimulai';
+                                $finishTime = $finishLog ? $finishLog->created_at->format('d/m/Y H:i') : 'Belum selesai';
+                                
+                                $duration = '';
+                                if ($startLog && $finishLog) {
+                                    $diff = $startLog->created_at->diff($finishLog->created_at);
+                                    $hours = ($diff->days * 24) + $diff->h;
+                                    $mins = $diff->i;
+                                    $duration = "<br><span style='color:#059669; font-weight:bold;'>({$hours}j {$mins}m)</span>";
+                                }
+                            @endphp
+                            <div>Mulai: {{ $startTime }}</div>
+                            <div style="margin-top: 3px;">Selesai: {{ $finishTime }}</div>
+                            {!! $duration !!}
+                        @else
+                            <span style="color: #999; font-style: italic;">Belum ada WO</span>
+                        @endif
                     </td>
                     <td style="text-align: center;">
                         <span class="badge badge-{{ $rep->severity->value }}">
@@ -168,7 +193,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" style="text-align: center; padding: 20px; font-style: italic; color: #777777;">
+                    <td colspan="8" style="text-align: center; padding: 20px; font-style: italic; color: #777777;">
                         Tidak ada data kerusakan fasilitas ditemukan untuk parameter filter yang dipilih.
                     </td>
                 </tr>
