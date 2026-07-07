@@ -110,14 +110,27 @@
     </style>
 </head>
 <body>
+    @php
+        $logoPath = public_path('images/logo.png');
+        $logoData = file_exists($logoPath) ? base64_encode(file_get_contents($logoPath)) : '';
+        $logoSrc = $logoData ? 'data:image/png;base64,' . $logoData : '';
+    @endphp
     <!-- Header Block -->
     <table class="header-table" cellpadding="0" cellspacing="0">
         <tr>
-            <td style="vertical-align: middle;">
-                <div class="title">PT BUKIT ASAM (PERSERO) TBK</div>
-                <div class="subtitle">Unit Pelabuhan Kertapati — E-Reporting Inspeksi Fasilitas Pelabuhan</div>
+            @if($logoSrc)
+            <td style="width: 65px; vertical-align: middle;">
+                <img src="{{ $logoSrc }}" alt="Logo PTBA" style="width: 55px; height: auto;">
             </td>
-            <td class="meta-info" style="vertical-align: middle;">
+            @endif
+            <td style="vertical-align: middle;">
+                <div class="title">PT BUKIT ASAM (PERSERO) Tbk</div>
+                <div class="subtitle">Unit Pelabuhan Kertapati — E-Reporting Inspeksi Fasilitas Pelabuhan</div>
+                <div style="font-size: 8px; color: #777; margin-top: 2px;">
+                    Jl. Stasiun Kertapati, Kec. Kertapati, Kota Palembang, Sumatera Selatan 30258
+                </div>
+            </td>
+            <td class="meta-info" style="vertical-align: top;">
                 <div>Tanggal Cetak: <strong>{{ now()->format('d M Y H:i') }}</strong></div>
                 <div>Filter Periode: <strong>{{ ($filters['start_date'] ?? 'Semua') . ' s/d ' . ($filters['end_date'] ?? 'Semua') }}</strong></div>
             </td>
@@ -204,13 +217,20 @@
     <!-- Signature Block -->
     <table class="signature-table" cellpadding="0" cellspacing="0">
         <tr>
-            <td style="width: 70%;"></td>
-            <td style="width: 30%; text-align: center;">
-                <div>Palembang, {{ now()->format('d F Y') }}</div>
-                <div class="signature-title">Penyusun Laporan,</div>
+            <td style="width: 35%; text-align: center;">
+                <div>Mengetahui,</div>
+                <div class="signature-title">Supervisor</div>
                 <div style="height: 60px;"></div>
-                <div class="signature-name">{{ auth()->user()->name }}</div>
-                <div style="font-size: 9px; color: #666666;">Peran: {{ strtoupper(auth()->user()->role->value) }}</div>
+                <div class="signature-name">{{ $supervisor ? $supervisor->name : '_______________________' }}</div>
+                <div style="font-size: 9px; color: #666666;">Unit Pelabuhan Kertapati</div>
+            </td>
+            <td style="width: 30%;"></td>
+            <td style="width: 35%; text-align: center;">
+                <div>Palembang, {{ now()->format('d F Y') }}</div>
+                <div class="signature-title">Dibuat Oleh, Admin</div>
+                <div style="height: 60px;"></div>
+                <div class="signature-name">{{ $admin ? $admin->name : '_______________________' }}</div>
+                <div style="font-size: 9px; color: #666666;">Unit Pelabuhan Kertapati</div>
             </td>
         </tr>
     </table>

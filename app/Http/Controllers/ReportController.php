@@ -39,8 +39,12 @@ class ReportController extends Controller
         // Fetch matching records
         $reports = $this->reportRepo->getFilteredReports($filters);
 
+        // Fetch signatories
+        $admin = \App\Models\User::where('role', \App\Enums\UserRole::ADMIN)->first();
+        $supervisor = \App\Models\User::where('role', \App\Enums\UserRole::SUPERVISOR)->first();
+
         // Generate PDF
-        $pdf = Pdf::loadView('reports.pdf', compact('reports', 'filters'))
+        $pdf = Pdf::loadView('reports.pdf', compact('reports', 'filters', 'admin', 'supervisor'))
             ->setPaper('a4', 'landscape');
 
         return $pdf->download('laporan-inspeksi-fasilitas-' . now()->format('Ymd-His') . '.pdf');
