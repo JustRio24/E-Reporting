@@ -9,7 +9,7 @@
         <div>
             <label for="email" class="label-clean">Alamat Email</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" 
-                class="input-clean py-3" placeholder="admin@reporting.com">
+                class="input-clean py-3" placeholder="Example@mail.com">
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 

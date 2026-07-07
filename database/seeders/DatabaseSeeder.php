@@ -440,7 +440,7 @@ class DatabaseSeeder extends Seeder
             DamageCategory::create($dmgCat);
         }
 
-        // ─── Call Demo Data Seeder ──────────────────────────────
-        $this->call(DemoDataSeeder::class);
+        // // ─── Call Demo Data Seeder ──────────────────────────────
+        // $this->call(DemoDataSeeder::class);
     }
 }
