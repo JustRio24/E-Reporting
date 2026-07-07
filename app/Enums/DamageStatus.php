@@ -55,8 +55,8 @@ enum DamageStatus: string
     {
         return match ($this) {
             self::DRAFT => [self::REPORTED],
-            self::REPORTED => [self::VERIFIED],
-            self::VERIFIED => [self::ASSIGNED],
+            self::REPORTED => [self::VERIFIED, self::DRAFT],
+            self::VERIFIED => [self::ASSIGNED, self::DRAFT],
             self::ASSIGNED => [self::IN_PROGRESS],
             self::IN_PROGRESS => [self::WAITING_VERIFICATION],
             self::WAITING_VERIFICATION => [self::COMPLETED, self::IN_PROGRESS],

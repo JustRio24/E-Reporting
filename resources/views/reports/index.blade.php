@@ -10,19 +10,19 @@
         <form action="{{ route('reports.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <!-- Start Date -->
             <div>
-                <label for="start_date" class="block text-[11px] font-mono font-bold uppercase text-blue-200 mb-1">Tanggal Mulai</label>
+                <label for="start_date" class="block text-[11px] font-mono font-bold uppercase text-slate-700 mb-1">Tanggal Mulai</label>
                 <input type="date" name="start_date" id="start_date" value="{{ $filters['start_date'] ?? '' }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2">
             </div>
 
             <!-- End Date -->
             <div>
-                <label for="end_date" class="block text-[11px] font-mono font-bold uppercase text-blue-200 mb-1">Tanggal Selesai</label>
+                <label for="end_date" class="block text-[11px] font-mono font-bold uppercase text-slate-700 mb-1">Tanggal Selesai</label>
                 <input type="date" name="end_date" id="end_date" value="{{ $filters['end_date'] ?? '' }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2">
             </div>
 
             <!-- Facility -->
             <div>
-                <label for="facility_id" class="block text-[11px] font-mono font-bold uppercase text-blue-200 mb-1">Fasilitas</label>
+                <label for="facility_id" class="block text-[11px] font-mono font-bold uppercase text-slate-700 mb-1">Fasilitas</label>
                 <select name="facility_id" id="facility_id" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2 font-mono">
                     <option value="">Semua Fasilitas</option>
                     @foreach($facilities as $fac)
@@ -35,7 +35,7 @@
 
             <!-- Status -->
             <div>
-                <label for="status" class="block text-[11px] font-mono font-bold uppercase text-blue-200 mb-1">Status Laporan</label>
+                <label for="status" class="block text-[11px] font-mono font-bold uppercase text-slate-700 mb-1">Status Laporan</label>
                 <select name="status" id="status" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2 font-mono">
                     <option value="">Semua Status</option>
                     @foreach($statuses as $st)
@@ -48,7 +48,7 @@
 
             <!-- Severity -->
             <div>
-                <label for="severity" class="block text-[11px] font-mono font-bold uppercase text-blue-200 mb-1">Tingkat Keparahan</label>
+                <label for="severity" class="block text-[11px] font-mono font-bold uppercase text-slate-700 mb-1">Tingkat Keparahan</label>
                 <select name="severity" id="severity" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2 font-mono">
                     <option value="">Semua Tingkat</option>
                     @foreach($severities as $sev)
@@ -92,27 +92,27 @@
                         <th class="py-3.5 px-4 font-semibold w-1/8 text-center">Status</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-700/50 text-xs">
+                <tbody class="divide-y divide-gray-200 text-xs">
                     @forelse($reports as $rep)
-                        <tr class="hover:bg-slate-700/30 transition-colors">
+                        <tr class="hover:bg-slate-50 transition-colors">
                             <td class="py-3.5 px-4 font-mono font-bold text-slate-800 select-all">{{ $rep->report_number }}</td>
-                            <td class="py-3.5 px-4 font-mono text-slate-550">{{ $rep->created_at->format('d/m/Y') }}</td>
+                            <td class="py-3.5 px-4 font-mono text-slate-600">{{ $rep->created_at->format('d/m/Y') }}</td>
                             <td class="py-3.5 px-4">
-                                <span class="block font-semibold text-slate-200">{{ $rep->facility->facility_name }}</span>
-                                <span class="block text-[10px] font-mono text-blue-200 mt-0.5">{{ $rep->facility->facility_code }}</span>
+                                <span class="block font-semibold text-slate-800">{{ $rep->facility->facility_name }}</span>
+                                <span class="block text-[10px] font-mono text-slate-500 mt-0.5">{{ $rep->facility->facility_code }}</span>
                             </td>
-                            <td class="py-3.5 px-4 text-slate-500 leading-normal">{{ $rep->title }}</td>
+                            <td class="py-3.5 px-4 text-slate-800 leading-normal">{{ $rep->title }}</td>
                             <td class="py-3.5 px-4 text-center">
-                                <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase text-slate-800
+                                <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase text-white
                                     @if($rep->severity->value === 'low') bg-slate-500
-                                    @elseif($rep->severity->value === 'medium') bg-amber-505
+                                    @elseif($rep->severity->value === 'medium') bg-amber-500
                                     @elseif($rep->severity->value === 'high') bg-orange-600
                                     @else bg-red-600 @endif">
                                     {{ $rep->severity->value }}
                                 </span>
                             </td>
                             <td class="py-3.5 px-4 text-center">
-                                <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase text-slate-800
+                                <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase text-white
                                     @if($rep->status->value === 'draft') bg-slate-400
                                     @elseif($rep->status->value === 'reported') bg-blue-600
                                     @elseif($rep->status->value === 'verified') bg-indigo-500
@@ -126,7 +126,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="py-8 text-center text-slate-400 font-mono">
+                            <td colspan="6" class="py-8 text-center text-slate-600 font-mono">
                                 Tidak ada data rekapitulasi yang memenuhi parameter filter.
                             </td>
                         </tr>

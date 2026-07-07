@@ -30,7 +30,7 @@
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
-                    <p class="text-sm mt-2 text-slate-200">
+                    <p class="text-sm mt-2 text-slate-800">
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification" class="underline text-sm text-slate-500 hover:text-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

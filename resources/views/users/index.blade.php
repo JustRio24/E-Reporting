@@ -58,9 +58,9 @@
                         <th class="py-3.5 px-4 font-semibold text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-700/50 text-xs">
+                <tbody class="divide-y divide-gray-200 text-xs">
                     @forelse($users as $user)
-                        <tr class="hover:bg-slate-700/30 transition-colors">
+                        <tr class="hover:bg-slate-50 transition-colors">
                             <td class="py-3 px-4 font-semibold text-slate-800">{{ $user->name }}</td>
                             <td class="py-3 px-4 font-mono text-slate-500">{{ $user->email }}</td>
                             <td class="py-3 px-4">

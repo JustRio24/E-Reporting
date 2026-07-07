@@ -112,11 +112,19 @@
                             iconAnchor: [7, 7]
                         });
 
+                        let imageHtml = '';
+                        if (point.photo_path) {
+                            imageHtml = `<img src="/storage/${point.photo_path}" alt="Damage Photo" class="w-full h-24 object-cover rounded mt-2 mb-1 border border-slate-200">`;
+                        } else {
+                            imageHtml = `<div class="w-full h-24 bg-slate-50 flex items-center justify-center rounded mt-2 mb-1 border border-slate-200 text-slate-400 text-[10px] italic">No Photo Available</div>`;
+                        }
+
                         const popupContent = `
-                            <div class="font-sans text-xs min-w-[200px] p-1.5">
-                                <div class="font-bold text-slate-200">${point.facility || 'Master Facility'}</div>
-                                <div class="text-slate-400 font-mono mt-0.5 text-xs">${point.report_number}</div>
-                                <div class="font-semibold text-slate-500 mt-1.5 border-t border-gray-100 pt-1.5">${point.title}</div>
+                            <div class="font-sans text-xs min-w-[200px] max-w-[250px] p-1.5">
+                                <div class="font-bold text-slate-800 text-sm leading-tight">${point.facility || 'Master Facility'}</div>
+                                <div class="text-slate-400 font-mono mt-0.5 text-[10px]">${point.report_number}</div>
+                                ${imageHtml}
+                                <div class="font-semibold text-slate-600 mt-1.5 border-t border-gray-100 pt-1.5 leading-snug">${point.title}</div>
                                 <div class="mt-2.5 flex items-center justify-between">
                                     <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded font-bold bg-slate-100 text-slate-500">${point.severity}</span>
                                     <a href="/damage-reports/${point.id}" class="text-[10px] font-bold text-secondary hover:underline">Detail &rarr;</a>
@@ -171,7 +179,7 @@
                                 <div class="text-slate-500 font-mono mt-0.5 text-[10px]">${facility.facility_code}</div>
                                 ${imageHtml}
                                 <div class="text-slate-600 mt-1 font-semibold flex items-center text-[10px]">
-                                    <span class="mr-1">📍</span> ${facility.location ? facility.location.location_name : '-'}
+                                    <span class="mr-1">📍</span> ${facility.location ? facility.location.name : '-'}
                                 </div>
                                 ${descHtml}
                             </div>

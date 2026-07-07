@@ -163,6 +163,7 @@ class DamageReportService
     public function getMapData(array $filters = []): array
     {
         return $this->reportRepository->getReportsForMap($filters)->map(function ($report) {
+            $photo = $report->photos->first();
             return [
                 'id' => $report->id,
                 'report_number' => $report->report_number,
@@ -173,6 +174,7 @@ class DamageReportService
                 'lat' => (float) $report->latitude,
                 'lng' => (float) $report->longitude,
                 'facility' => $report->facility?->facility_name,
+                'photo_path' => $photo ? $photo->photo_path : null,
             ];
         })->toArray();
     }

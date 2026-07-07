@@ -439,5 +439,8 @@ class DatabaseSeeder extends Seeder
         foreach ($damageCategories as $dmgCat) {
             DamageCategory::create($dmgCat);
         }
+
+        // ─── Call Demo Data Seeder ──────────────────────────────
+        $this->call(DemoDataSeeder::class);
     }
 }

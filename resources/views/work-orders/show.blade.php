@@ -18,7 +18,7 @@
                 @if(auth()->id() === $workOrder->assigned_to || auth()->user()->isAdmin())
                     <form action="{{ route('work-orders.start', $workOrder->id) }}" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-primary-dark transition-colors">
+                        <button type="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-primary-dark transition-colors">
                             Mulai Perbaikan
                         </button>
                     </form>

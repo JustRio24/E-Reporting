@@ -57,9 +57,9 @@
                         <th class="py-3.5 px-4 font-semibold text-right w-1/6">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-700/50 text-xs">
+                <tbody class="divide-y divide-gray-200 text-xs">
                     @forelse($facilities as $fac)
-                        <tr class="hover:bg-slate-700/30 transition-colors">
+                        <tr class="hover:bg-slate-50 transition-colors">
                             <td class="py-3 px-4 font-mono font-bold text-primary-dark select-all">{{ $fac->facility_code }}</td>
                             <td class="py-3 px-4 font-semibold text-slate-800">{{ $fac->facility_name }}</td>
                             <td class="py-3 px-4 text-slate-500">{{ $fac->category->name }}</td>

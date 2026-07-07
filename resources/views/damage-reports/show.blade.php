@@ -101,16 +101,16 @@
                     <div class="border-t border-b border-gray-100 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div>
                             <span class="block text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase">Fasilitas</span>
-                            <span class="text-xs font-semibold text-slate-200 block mt-0.5">{{ $report->facility->facility_name }}</span>
+                            <span class="text-xs font-semibold text-slate-800 block mt-0.5">{{ $report->facility->facility_name }}</span>
                             <span class="text-[10px] font-mono text-slate-400">{{ $report->facility->facility_code }}</span>
                         </div>
                         <div>
                             <span class="block text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase">Lokasi Area</span>
-                            <span class="text-xs font-semibold text-slate-200 block mt-0.5">{{ $report->facility->location->name }}</span>
+                            <span class="text-xs font-semibold text-slate-800 block mt-0.5">{{ $report->facility->location->name }}</span>
                         </div>
                         <div>
                             <span class="block text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase">Kategori Kerusakan</span>
-                            <span class="text-xs font-semibold text-slate-200 block mt-0.5">{{ $report->damageCategory->name }}</span>
+                            <span class="text-xs font-semibold text-slate-800 block mt-0.5">{{ $report->damageCategory->name }}</span>
                         </div>
                         <div>
                             <span class="block text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase">Tingkat Keparahan</span>
@@ -201,8 +201,8 @@
                     </div>
                     <div class="h-64 relative z-0" id="detail-map"></div>
                     <div class="p-4 bg-surface-50 border-t border-gray-200 font-mono text-[11px] text-slate-400 flex flex-col space-y-1">
-                        <div>Latitude: <span class="text-slate-200 font-bold">{{ $report->latitude }}</span></div>
-                        <div>Longitude: <span class="text-slate-200 font-bold">{{ $report->longitude }}</span></div>
+                        <div>Latitude: <span class="text-slate-800 font-bold">{{ $report->latitude }}</span></div>
+                        <div>Longitude: <span class="text-slate-800 font-bold">{{ $report->longitude }}</span></div>
                     </div>
                 </div>
             @endif
@@ -270,7 +270,7 @@
         });
 
         L.marker([{{ $report->latitude }}, {{ $report->longitude }}], { icon: customIcon })
-            .bindPopup(`<div class="font-sans text-xs font-bold text-slate-200">{{ $report->facility->facility_name }}</div>`)
+            .bindPopup(`<div class="font-sans text-xs font-bold text-slate-800">{{ $report->facility->facility_name }}</div>`)
             .addTo(detailMap);
     });
     @endif
