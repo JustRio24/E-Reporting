@@ -20,7 +20,7 @@
             @endif
         </form>
 
-        <a href="{{ route('locations.create') }}" class="inline-flex items-center justify-center bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-4 py-2.5 rounded hover:bg-primary-dark transition-colors self-start md:self-auto">
+        <a href="{{ route('locations.create') }}" class="inline-flex items-center justify-center bg-primary text-white text-xs font-bold tracking-wider uppercase px-4 py-2.5 rounded hover:bg-primary-dark transition-colors self-start md:self-auto">
             Tambah Lokasi
         </a>
     </div>

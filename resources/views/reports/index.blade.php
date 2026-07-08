@@ -67,7 +67,7 @@
                 <button type="submit" class="bg-secondary text-slate-800 text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-secondary-dark transition-colors">
                     Preview Data
                 </button>
-                <a href="{{ route('reports.export', $filters) }}" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-primary-dark transition-colors flex items-center shadow-sm">
+                <a href="{{ route('reports.export', $filters) }}" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded hover:bg-primary-dark transition-colors flex items-center shadow-sm">
                     <span class="mr-2">💾</span> Ekspor PDF
                 </a>
             </div>

@@ -138,12 +138,12 @@
             <!-- Submit buttons -->
             <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
                 <!-- Save as Draft -->
-                <button type="submit" name="action" value="draft" class="bg-slate-200 text-slate-800 text-xs font-bold tracking-wider uppercase px-4 py-3 rounded hover:bg-slate-300 transition-colors">
+                <button type="submit" name="action" value="draft" class="bg-slate-200 text-white text-xs font-bold tracking-wider uppercase px-4 py-3 rounded hover:bg-slate-300 transition-colors">
                     Simpan Sebagai Draft
                 </button>
                 
                 <!-- Send/Report -->
-                <button type="submit" name="action" value="submit" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
+                <button type="submit" name="action" value="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
                     Kirim Laporan
                 </button>
             </div>

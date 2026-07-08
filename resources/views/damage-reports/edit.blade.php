@@ -124,7 +124,7 @@
 
             <!-- Submit -->
             <div class="pt-4 border-t border-gray-100 flex justify-end">
-                <button type="submit" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
+                <button type="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
                     Simpan Perubahan
                 </button>
             </div>

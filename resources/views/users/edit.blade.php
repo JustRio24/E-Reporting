@@ -41,7 +41,7 @@
                 <!-- Phone -->
                 <div>
                     <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1">Nomor Telepon</label>
-                    <input type="text" name="phone" id="phone" value="{{ old('phone', $userModel->phone) }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2">
+                    <input type="Number" name="phone" id="phone" value="{{ old('phone', $userModel->phone) }}" class="w-full text-xs rounded border-gray-200 focus:border-primary focus:ring-primary/20 py-2">
                     @error('phone')
                         <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
                     @enderror
@@ -86,7 +86,7 @@
 
             <!-- Submit Button -->
             <div class="pt-4 border-t border-gray-100 flex justify-end">
-                <button type="submit" class="bg-primary text-slate-800 text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
+                <button type="submit" class="bg-primary text-white text-xs font-bold tracking-wider uppercase px-6 py-3 rounded hover:bg-primary-dark transition-colors">
                     Simpan Perubahan
                 </button>
             </div>
